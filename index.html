@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./asset/favcon.ico">
+    <title>Login Page</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
+
+        *{
+            font-family: 'Jost', sans-serif;
+            color: aliceblue;
+        }
+        .flex__wrap {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .wrapper {
+            border: 2px solid rgb(194, 181, 181);
+            width: 300px;
+            padding: 9px;
+            border-radius: 10px;
+            background-color: #e3e1e1;
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.075);
+        }
+
+        .flex_form_fields {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            flex-direction: column;
+        }
+        .btn {
+            background-color: #1d4ed8;
+            padding: 9px 25px;
+            border-color: rgb(109, 119, 122);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 270px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        p a {
+            text-decoration: none;
+            color: #1d4ed8;
+        }
+        p , h1, label{
+            color: rgb(118, 111, 111);
+        }
+
+        .input__fields {
+            width: 250px;
+            border-radius: 6px;
+            padding: 10px;
+            border: 1.2px solid rgb(215, 205, 205);
+            margin-bottom: 19px;
+        }
+        ::placeholder {
+            color: rgb(188, 186, 186);
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: rgb(118, 111, 111);
+            transition: all 0.2s ease-in-out 0.02s;
+        }
+
+        .logo {
+            height: 100px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="flex__wrap">
+        <img class="logo" src="./asset/efinder_logo_black.png" alt="efind logo">
+    <div class="wrapper">
+        <div class="flex_form_fields">
+            <h1>Sign In</h1>
+            <form action="#" method="post">
+            <label for="email">Email Address</label>
+            <br>
+            <input class="input__fields" type="email" name="email" id="" placeholder="Enter your email..">
+            <br>
+            <label for="password">Passcode</label>
+            <br>
+            <input class="input__fields" type="password" name="password" placeholder="Enter your password..">
+            <br>
+            <input class="btn" type="button" value="Sign In">
+        </form>
+        <p>Don't have an account?<a href="./SignUp.html"> Sign Up</a></p>
+        </div>
+    </div>
+    </div> 
+</body>
+</html>
