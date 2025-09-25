@@ -382,6 +382,137 @@ curl -X POST http://localhost:3000/api/bookings \
 curl http://localhost:3000/api/bookings
 ```
 
+## Testing the Frontend
+
+### 1. Start the Frontend Server
+
+Navigate to the frontend directory and start the server:
+
+```bash
+cd FY-project/frontend
+node server.js
+```
+
+The frontend will be available at `http://localhost:8080`
+
+### 2. Frontend Testing Checklist
+
+#### Homepage Testing
+- [ ] **Hero Section**: Verify the hero image displays correctly
+- [ ] **Search Functionality**: Test the search form with different inputs
+- [ ] **Responsive Design**: Check layout on different screen sizes (mobile, tablet, desktop)
+- [ ] **Navigation**: Ensure all navigation links work properly
+
+#### Authentication Pages Testing
+- [ ] **Login Page**: 
+  - Test login form validation
+  - Verify responsive split-screen layout
+  - Check image display on the left side
+  - Test form submission
+- [ ] **Signup Page**:
+  - Test signup form validation
+  - Verify responsive split-screen layout
+  - Check image display on the left side
+  - Test form submission
+  - Verify password requirements
+
+#### Dashboard Testing
+- [ ] **Owner Dashboard**:
+  - Test venue creation form
+  - Verify file upload functionality
+  - Check venue listing
+  - Test venue editing and deletion
+- [ ] **Organizer Dashboard**:
+  - Test venue browsing
+  - Verify search and filter functionality
+  - Test booking creation
+  - Check booking management
+
+### 3. Frontend-Backend Integration Testing
+
+#### Test User Registration Flow
+1. Open `http://localhost:8080/pages/SignUp.html`
+2. Fill out the signup form with valid data
+3. Submit the form and verify successful registration
+4. Check that user data is stored in the backend database
+
+#### Test Venue Creation Flow
+1. Register as a venue owner
+2. Navigate to the owner dashboard
+3. Create a new venue with all required fields
+4. Upload a venue image
+5. Verify the venue appears in the venue listing
+6. Check that venue data is stored in the backend database
+
+#### Test Venue Search Flow
+1. Open the homepage
+2. Use the search form to find venues
+3. Test different search criteria (location, event type, capacity)
+4. Verify search results are displayed correctly
+5. Test responsive design on mobile devices
+
+### 4. Cross-Browser Testing
+
+Test the frontend on different browsers:
+- [ ] **Chrome**: Latest version
+- [ ] **Firefox**: Latest version
+- [ ] **Safari**: Latest version (if on macOS)
+- [ ] **Edge**: Latest version
+
+### 5. Mobile Responsiveness Testing
+
+Test on different device sizes:
+- [ ] **Mobile**: 320px - 768px width
+- [ ] **Tablet**: 768px - 1024px width
+- [ ] **Desktop**: 1024px+ width
+
+Key areas to test:
+- Hero section image and text positioning
+- Search form layout and functionality
+- Authentication pages split-screen layout
+- Dashboard forms and tables
+- Navigation menu behavior
+
+### 6. Performance Testing
+
+- [ ] **Page Load Speed**: Check initial page load times
+- [ ] **Image Loading**: Verify hero images and venue photos load properly
+- [ ] **Form Submission**: Test form response times
+- [ ] **Search Performance**: Test search query response times
+
+### 7. Error Handling Testing
+
+- [ ] **Network Errors**: Test behavior when backend is offline
+- [ ] **Form Validation**: Test client-side validation messages
+- [ ] **File Upload Errors**: Test with invalid file types/sizes
+- [ ] **404 Pages**: Test navigation to non-existent pages
+
+### 8. Frontend Development Tools
+
+For debugging and testing, you can use:
+- **Browser Developer Tools**: F12 to inspect elements and console
+- **Network Tab**: Monitor API requests and responses
+- **Responsive Design Mode**: Test different screen sizes
+- **Console**: Check for JavaScript errors
+
+### 9. Common Frontend Issues and Solutions
+
+#### Issue: Images not loading
+- **Solution**: Check file paths and ensure images exist in the uploads folder
+- **Debug**: Use browser developer tools to check network requests
+
+#### Issue: CSS not applying
+- **Solution**: Clear browser cache or add cache-busting parameters (`?v=1`)
+- **Debug**: Check if CSS file is loading in the Network tab
+
+#### Issue: Forms not submitting
+- **Solution**: Check browser console for JavaScript errors
+- **Debug**: Verify API endpoints are correct and backend is running
+
+#### Issue: Responsive layout breaking
+- **Solution**: Test CSS media queries and viewport meta tag
+- **Debug**: Use browser responsive design mode to test different sizes
+
 ## Project Structure
 
 ```
