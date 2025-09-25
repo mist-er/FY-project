@@ -1,0 +1,600 @@
+{
+  "info": {
+    "name": "Event Venue Locator API",
+    "description": "Complete API collection for testing Event Venue Locator endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create Owner",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.owner@example.com\",\n  \"password\": \"Password123\",\n  \"role\": \"owner\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set(\"owner_id\", response.user._id);",
+                  "    console.log(\"Owner ID saved:\", response.user._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Organizer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"jane.organizer@example.com\",\n  \"password\": \"Password123\",\n  \"role\": \"organizer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set(\"user_id\", response.user._id);",
+                  "    console.log(\"Organizer ID saved:\", response.user._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Smith Updated\",\n  \"email\": \"jane.updated@example.com\",\n  \"role\": \"organizer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Venues",
+      "item": [
+        {
+          "name": "Create Venue",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Grand Ballroom",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Elegant ballroom perfect for weddings and corporate events",
+                  "type": "text"
+                },
+                {
+                  "key": "location",
+                  "value": "123 Main Street, New York, NY 10001",
+                  "type": "text"
+                },
+                {
+                  "key": "capacity",
+                  "value": "200",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "1500.00",
+                  "type": "text"
+                },
+                {
+                  "key": "contact_email",
+                  "value": "info@grandballroom.com",
+                  "type": "text"
+                },
+                {
+                  "key": "contact_phone",
+                  "value": "+1-555-0123",
+                  "type": "text"
+                },
+                {
+                  "key": "owner_id",
+                  "value": "{{owner_id}}",
+                  "type": "text"
+                },
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/venues",
+              "host": ["{{base_url}}"],
+              "path": ["venues"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set(\"venue_id\", response.venue._id);",
+                  "    console.log(\"Venue ID saved:\", response.venue._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Venues",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/venues",
+              "host": ["{{base_url}}"],
+              "path": ["venues"]
+            }
+          }
+        },
+        {
+          "name": "Get All Venues with Filters",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/venues?location=New York&min_capacity=100&max_price=2000&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["venues"],
+              "query": [
+                {
+                  "key": "location",
+                  "value": "New York"
+                },
+                {
+                  "key": "min_capacity",
+                  "value": "100"
+                },
+                {
+                  "key": "max_price",
+                  "value": "2000"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Venues",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/venues/search?search=ballroom&min_capacity=150&max_price=3000",
+              "host": ["{{base_url}}"],
+              "path": ["venues", "search"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "ballroom"
+                },
+                {
+                  "key": "min_capacity",
+                  "value": "150"
+                },
+                {
+                  "key": "max_price",
+                  "value": "3000"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Venue by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/venues/{{venue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["venues", "{{venue_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Venue",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Updated Grand Ballroom",
+                  "type": "text"
+                },
+                {
+                  "key": "capacity",
+                  "value": "250",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "1800.00",
+                  "type": "text"
+                },
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/venues/{{venue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["venues", "{{venue_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Venue",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/venues/{{venue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["venues", "{{venue_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Venues by Owner",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/venues/owner/{{owner_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["venues", "owner", "{{owner_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Venue Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/venues/{{venue_id}}/stats",
+              "host": ["{{base_url}}"],
+              "path": ["venues", "{{venue_id}}", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Check Venue Availability",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/venues/{{venue_id}}/availability?date=2024-12-25",
+              "host": ["{{base_url}}"],
+              "path": ["venues", "{{venue_id}}", "availability"],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2024-12-25"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"venue_id\": \"{{venue_id}}\",\n  \"organizer_id\": \"{{user_id}}\",\n  \"event_name\": \"Annual Company Meeting\",\n  \"event_date\": \"2024-12-25\",\n  \"start_time\": \"09:00\",\n  \"end_time\": \"17:00\",\n  \"notes\": \"Need AV equipment and catering setup\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["bookings"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set(\"booking_id\", response.booking._id);",
+                  "    console.log(\"Booking ID saved:\", response.booking._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Bookings",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["bookings"]
+            }
+          }
+        },
+        {
+          "name": "Get All Bookings with Filters",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bookings?status=confirmed&limit=10&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["bookings"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "confirmed"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Booking by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bookings/{{booking_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "{{booking_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Booking",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_name\": \"Updated Annual Company Meeting\",\n  \"start_time\": \"10:00\",\n  \"end_time\": \"18:00\",\n  \"notes\": \"Updated requirements - need additional AV equipment\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookings/{{booking_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "{{booking_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Booking Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookings/{{booking_id}}/status",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "{{booking_id}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Delete Booking",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/bookings/{{booking_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "{{booking_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Bookings by Organizer",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bookings/organizer/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "organizer", "{{user_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Bookings by Venue",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bookings/venue/{{venue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "venue", "{{venue_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Booking Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bookings/{{booking_id}}/stats",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "{{booking_id}}", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Check Venue Availability for Booking",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bookings/venue/{{venue_id}}/availability?date=2024-12-25&start_time=09:00&end_time=17:00",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "venue", "{{venue_id}}", "availability"],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2024-12-25"
+                },
+                {
+                  "key": "start_time",
+                  "value": "09:00"
+                },
+                {
+                  "key": "end_time",
+                  "value": "17:00"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if (!pm.environment.get(\"base_url\")) {",
+          "    pm.environment.set(\"base_url\", \"http://localhost:3000/api\");",
+          "}"
+        ]
+      }
+    }
+  ]
+}
