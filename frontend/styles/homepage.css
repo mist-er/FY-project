@@ -115,7 +115,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            /* height: 70vh; */
             background-color: #f5f5f5;
             text-align: center;
             padding-top: 10px; /* To prevent overlap with fixed navbar */
@@ -137,7 +137,7 @@
 
         .search__bar {
             padding: 10px;
-            width: 790px;
+            width: 800px;
             border: 1.5px solid rgb(194, 181, 181);
             border-radius: 30px;
             font-size: 16px;
@@ -165,11 +165,13 @@
 
         /* filter start here */
         #filterOptions {
+            width: 930px;
             text-align: left;
             display: flex;
             flex-direction: row;
             align-items: flex-start;
             justify-content: space-between;
+            flex-wrap: wrap;
             gap: 20px;
             padding: 20px;
             background-color: #e3e1e1;
@@ -177,6 +179,11 @@
             border-radius: 8px;
             margin-top: 10px;
             box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.075);
+        }
+        .filter_flex_wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .filter__range {
             width: 100%;
@@ -197,11 +204,292 @@
         @media screen and (min-width: 300px) and (max-width: 1024px) {
          #filterOptions {
             flex-direction: column;
-            gap: 16px;
-            padding: 10px;
-        }
-        .filter__select {
-            width: 100%;
-    }
+            width: 300px;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px;
+            background-color: #e3e1e1;
+            border: 2px solid rgb(194, 181, 181);
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.075);
+
+         }
 }
         /* filter end here */
+
+    /* --- Venue Results Header --- */
+
+.results__header {
+    padding-top: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 40px 0 24px 0;
+    padding: 0 8px;
+}
+
+.results__header h2 {
+    font-size: 1.35rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.results__location {
+    color: #555;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* --- Venue Cards Layout --- */
+.venue__cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    margin-bottom: 40px;
+}
+
+/* --- Individual Venue Card --- */
+
+.venue__card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    width: 390px;
+    min-height: 200px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+.venue__card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.venue__img {
+    width: 140px;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* --- Venue Info Section --- */
+.venue__info {
+    padding: 18px 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* --- Title and Rating --- */
+.venue__title {
+    font-size: 1.08rem;
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.venue__rating {
+    color: #fbbf24;
+    font-size: 1rem;
+    margin-left: 8px;
+    font-weight: 600;
+}
+/* --- Location and Capacity --- */
+.venue__location,
+.venue__capacity {
+    color: #555;
+    font-size: 0.97rem;
+    margin-bottom: 4px;
+}
+
+/* --- Tags --- */
+.venue__tags {
+    margin-bottom: 8px;
+}
+.venue__tags span {
+    background: #e5e7eb;
+    color: #444;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.85rem;
+    margin-right: 6px;
+    margin-bottom: 2px;
+    display: inline-block;
+}
+
+/* --- Price and Status --- */
+.venue__price-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.venue__price {
+    color: #2563eb;
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+
+.venue__perday {
+    color: #555;
+    font-size: 0.95rem;
+    font-weight: normal;
+    margin-left: 2px;
+}
+.venue__available {
+    color: #059669;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-left: 10px;
+}
+
+.venue__booked {
+    color: #dc2626;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-left: 10px;
+}
+/* --- Responsive --- */
+@media screen and (min-width: 300px) and (max-width: 1024px) {
+    .venue__cards {
+    padding-top: 120px;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    }
+
+    .venue__card {
+        width: 98vw;
+        max-width: 390px;
+    }
+
+    /* --- Responsive Venue Card and Header for Small Screens --- */
+    .results__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding-top: 0;
+        margin-top: 20px;
+        margin-bottom: 16px;
+        padding-left: 8px;
+    }
+    .results__header h2 {
+        font-size: 1.15rem;
+        font-weight: bold;
+        margin-bottom: 2px;
+}
+.results__location {
+        font-size: 0.97rem;
+        color: #555;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+    .venue__cards {
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+    .venue__card {
+        width: 98vw;
+        max-width: 420px;
+        min-width: 0;
+        border-radius: 16px;
+        flex-direction: column;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        margin: 0 auto;
+        padding-bottom: 10px;
+    }
+    .venue__img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .venue__info {
+        padding: 14px 12px 10px 12px;
+    }
+    .venue__title {
+        font-size: 1.05rem;
+        margin-bottom: 6px;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .venue__tags span {
+        font-size: 0.82rem;
+        padding: 2px 8px;
+        margin-right: 4px;
+    }
+    .venue__price-status {
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 8px;
+    }
+}
+
+/* Main grid layout */
+.main__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 58vh auto auto auto;
+    /* gap: 24px; */
+    max-width: 1200px;
+    margin: 0 auto;
+    /* padding-top: 100px; */
+}
+
+/* Show filter when toggled */
+
+/* Responsive adjustments for small screens */
+@media (max-width: 600px) {
+    .main__grid {
+        gap: 18px;
+        padding-top: 80px;
+    }
+    .filter__wrapper {
+        flex-direction: column;
+        gap: 16px;
+        padding: 10px;
+    }
+    .venue__cards {
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+    .venue__card {
+        width: 98vw;
+        max-width: 420px;
+        min-width: 0;
+        border-radius: 16px;
+        flex-direction: column;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        margin: 0 auto;
+        padding-bottom: 10px;
+    }
+    .venue__img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .results__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        margin-top: 0;
+        margin-bottom: 16px;
+        padding-left: 8px;
+    }
+}
