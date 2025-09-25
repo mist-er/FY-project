@@ -96,11 +96,56 @@
             <br>
             <input class="input__fields" type="password" name="password" placeholder="Enter your password..">
             <br>
-            <input class="btn" type="button" value="Sign In">
+            <input class="btn" type="button" value="Sign In" id="loginBtn">
         </form>
         <p>Don't have an account?<a href="./SignUp.html"> Sign Up</a></p>
         </div>
     </div>
     </div> 
+    <script>
+        // API Integration for Login
+        document.getElementById('loginBtn').addEventListener('click', async function() {
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+
+            // Basic validation
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                // For now, we'll get all users and find the matching one
+                // In a real app, you'd have a proper login endpoint
+                const response = await fetch('http://localhost:3000/api/users');
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Find user by email (this is a simplified approach)
+                    const user = data.users.find(u => u.email === email);
+                    
+                    if (user) {
+                        // In a real app, you'd verify the password with the backend
+                        alert('Login successful!');
+                        localStorage.setItem('user', JSON.stringify(user));
+                        
+                        // Redirect based on role
+                        if (user.role === 'owner') {
+                            window.location.href = './owner-dashboard.html';
+                        } else {
+                            window.location.href = './organizer-dashboard.html';
+                        }
+                    } else {
+                        alert('User not found. Please check your email.');
+                    }
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error. Please try again.');
+            }
+        });
+    </script>
 </body>
 </html>

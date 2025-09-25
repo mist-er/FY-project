@@ -119,16 +119,65 @@
             <br>
             <label for="form_dropdown">Account Type</label>
             <br>
-            <select name="selectedOption" id="">
-                <option value="eventOrganizer">Event Organizer</option>
-                <option value="venueOrganizer">Venue Manager</option>
+            <select name="role" id="role">
+                <option value="organizer">Event Organizer</option>
+                <option value="owner">Venue Owner</option>
             </select>
-            <input class="btn" type="button" value="Sign In">
+            <input class="btn" type="button" value="Sign Up" id="signupBtn">
         </form>
         <p>Don't have an account?<a href="./index.html"> Sign In</a></p>
         </div>
     </div>
     </div> 
+    <script>
+        // API Integration for SignUp
+        document.getElementById('signupBtn').addEventListener('click', async function() {
+            const name = document.querySelector('input[name="name"]').value;
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            const role = document.getElementById('role').value;
+
+            // Basic validation
+            if (!name || !email || !password || !role) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        password: password,
+                        role: role
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Account created successfully!');
+                    // Store user data in localStorage
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    // Redirect based on role
+                    if (role === 'owner') {
+                        window.location.href = './owner-dashboard.html';
+                    } else {
+                        window.location.href = './organizer-dashboard.html';
+                    }
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error. Please try again.');
+            }
+        });
+    </script>
 </body>
 
 </html>

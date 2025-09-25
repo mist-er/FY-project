@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Dashboard - eFinder</title>
+    <link rel="icon" type="image/x-icon" href="../asset/favcon.ico">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
+        
+        * {
+            font-family: 'Jost', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: #e3e1e1;
+            padding: 0 20px;
+            height: 70px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-logo {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo-img {
+            height: 50px;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: #1d4ed8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #1e40af;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            color: #1f2937;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #e5e7eb;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .tab.active {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .venue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .venue-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .venue-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .venue-card h3 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .venue-card p {
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .venue-price {
+            color: #1d4ed8;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .booking-card h3 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .booking-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
+
+        .no-data h3 {
+            margin-bottom: 10px;
+            color: #374151;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .venue-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <a href="../pages/index.html">
+                <img src="../asset/efinder_logo_black.png" alt="eFinder logo" class="nav-logo-img">
+            </a>
+        </div>
+        <div class="nav-actions">
+            <span id="userName">Welcome, Organizer</span>
+            <a href="#" class="btn btn-secondary" onclick="logout()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">My Dashboard</h1>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('venues')">Browse Venues</button>
+            <button class="tab" onclick="switchTab('bookings')">My Bookings</button>
+        </div>
+
+        <!-- Venues Tab -->
+        <div id="venuesTab" class="tab-content active">
+            <div id="venuesGrid" class="venue-grid">
+                <!-- Venues will be loaded here -->
+            </div>
+            <div id="noVenues" class="no-data" style="display: none;">
+                <h3>No venues available</h3>
+                <p>Check back later for new venues!</p>
+            </div>
+        </div>
+
+        <!-- Bookings Tab -->
+        <div id="bookingsTab" class="tab-content">
+            <div id="bookingsList">
+                <!-- Bookings will be loaded here -->
+            </div>
+            <div id="noBookings" class="no-data" style="display: none;">
+                <h3>No bookings yet</h3>
+                <p>Start by browsing and booking venues!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Book Venue</h2>
+                <span class="close" onclick="closeBookingModal()">&times;</span>
+            </div>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="eventName">Event Name *</label>
+                    <input type="text" id="eventName" name="event_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Event Date *</label>
+                    <input type="date" id="eventDate" name="event_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="startTime">Start Time *</label>
+                    <input type="time" id="startTime" name="start_time" required>
+                </div>
+                <div class="form-group">
+                    <label for="endTime">End Time *</label>
+                    <input type="time" id="endTime" name="end_time" required>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" placeholder="Any special requirements..."></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeBookingModal()">Cancel</button>
+                    <button type="submit" class="btn">Book Venue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+        let currentUser = null;
+        let selectedVenueId = null;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadVenues();
+            loadBookings();
+        });
+
+        function loadUserData() {
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                document.getElementById('userName').textContent = `Welcome, ${currentUser.name}`;
+            } else {
+                // Redirect to login if no user data
+                window.location.href = './login.html';
+            }
+        }
+
+        async function loadVenues() {
+            try {
+                const response = await fetch(`${API_BASE}/venues`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayVenues(data.venues);
+                } else {
+                    console.error('Error loading venues:', data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function displayVenues(venues) {
+            const venuesGrid = document.getElementById('venuesGrid');
+            const noVenues = document.getElementById('noVenues');
+
+            if (venues.length === 0) {
+                venuesGrid.style.display = 'none';
+                noVenues.style.display = 'block';
+                return;
+            }
+
+            venuesGrid.style.display = 'grid';
+            noVenues.style.display = 'none';
+
+            venuesGrid.innerHTML = venues.map(venue => `
+                <div class="venue-card" onclick="openBookingModal('${venue._id}')">
+                    <h3>${venue.name}</h3>
+                    <p><strong>Location:</strong> ${venue.location}</p>
+                    <p><strong>Capacity:</strong> ${venue.capacity} guests</p>
+                    <p class="venue-price">GHS ${venue.price}</p>
+                    <p><strong>Status:</strong> ${venue.isActive ? 'Available' : 'Unavailable'}</p>
+                </div>
+            `).join('');
+        }
+
+        async function loadBookings() {
+            try {
+                const response = await fetch(`${API_BASE}/bookings/organizer/${currentUser._id}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayBookings(data.bookings);
+                } else {
+                    console.error('Error loading bookings:', data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function displayBookings(bookings) {
+            const bookingsList = document.getElementById('bookingsList');
+            const noBookings = document.getElementById('noBookings');
+
+            if (bookings.length === 0) {
+                bookingsList.style.display = 'none';
+                noBookings.style.display = 'block';
+                return;
+            }
+
+            bookingsList.style.display = 'block';
+            noBookings.style.display = 'none';
+
+            bookingsList.innerHTML = bookings.map(booking => `
+                <div class="booking-card">
+                    <h3>${booking.eventName}</h3>
+                    <p><strong>Venue:</strong> ${booking.venue.name}</p>
+                    <p><strong>Date:</strong> ${new Date(booking.eventDate).toLocaleDateString()}</p>
+                    <p><strong>Time:</strong> ${booking.startTime} - ${booking.endTime}</p>
+                    <p><strong>Total Cost:</strong> GHS ${booking.totalCost}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="booking-status status-${booking.status}">${booking.status}</span>
+                    </p>
+                    ${booking.notes ? `<p><strong>Notes:</strong> ${booking.notes}</p>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function switchTab(tabName) {
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            // Add active class to selected tab and content
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        function openBookingModal(venueId) {
+            selectedVenueId = venueId;
+            document.getElementById('modalTitle').textContent = 'Book Venue';
+            document.getElementById('bookingForm').reset();
+            document.getElementById('bookingModal').style.display = 'block';
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+            selectedVenueId = null;
+        }
+
+        // Handle booking form submission
+        document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = {
+                venue_id: selectedVenueId,
+                organizer_id: currentUser._id,
+                event_name: document.getElementById('eventName').value,
+                event_date: document.getElementById('eventDate').value,
+                start_time: document.getElementById('startTime').value,
+                end_time: document.getElementById('endTime').value,
+                notes: document.getElementById('notes').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/bookings`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Venue booked successfully!');
+                    closeBookingModal();
+                    loadBookings(); // Reload bookings
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error. Please try again.');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = './login.html';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('bookingModal');
+            if (event.target === modal) {
+                closeBookingModal();
+            }
+        }
+    </script>
+</body>
+</html>
