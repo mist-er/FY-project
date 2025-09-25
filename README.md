@@ -214,4 +214,5 @@ This project is licensed under the MIT License.
 
 ## 📞 Support
 
-For support, email support@efinder.com or create an issue in the repository.
+For support, KINDLY HIT ME UP 
+
