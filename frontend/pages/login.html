@@ -3,116 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - eFinder</title>
     <link rel="icon" type="image/x-icon" href="../asset/favcon.ico">
-    <title>Login Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles/custom.css?v=7">
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
-
-        *{
-            font-family: 'Jost', sans-serif;
-            color: aliceblue;
-        }
-        .flex__wrap {
+        body {
+            background: white;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            flex-direction: column;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
         }
-
-        .wrapper {
-            border: 2px solid rgb(194, 181, 181);
-            width: 300px;
-            padding: 9px;
-            border-radius: 10px;
-            background-color: #e3e1e1;
-            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.075);
-        }
-
-        .flex_form_fields {
+        
+        .auth-wrapper {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 400px;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 100vh;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .auth-image {
+            flex: 1;
+            background: url('../uploads/i.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+        
+        .login-container {
+            flex: 1;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            display: flex;
             flex-direction: column;
+            justify-content: center;
+            padding: 40px;
         }
-        .btn {
-            background-color: #1d4ed8;
-            padding: 9px 25px;
-            border-color: rgb(109, 119, 122);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 270px;
-            font-size: 16px;
-            color: #fff;
+        
+        .login-header {
+            background: white;
+            color: #ff6b35;
+            padding: 40px 30px;
+            text-align: center;
         }
-
-        p a {
+        
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ff6b35;
             text-decoration: none;
-            color: #1d4ed8;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
         }
-        p , h1, label{
-            color: rgb(118, 111, 111);
+        
+        .back-home:hover {
+            opacity: 0.8;
+            color: #e55a2b;
         }
-
-        .input__fields {
-            width: 250px;
-            border-radius: 6px;
-            padding: 10px;
-            border: 1.2px solid rgb(215, 205, 205);
-            margin-bottom: 19px;
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .auth-wrapper {
+                flex-direction: column;
+                max-width: 100%;
+                min-height: auto;
+            }
+            
+            .auth-image {
+                min-height: 200px;
+                order: 2;
+            }
+            
+            .login-container {
+                order: 1;
+                padding: 20px;
+            }
         }
-        ::placeholder {
-            color: rgb(188, 186, 186);
-            font-size: 16px;
-        }
-
-        .btn:hover {
-            background-color: rgb(118, 111, 111);
-            transition: all 0.2s ease-in-out 0.02s;
-        }
-
-        .logo {
-            height: 100px;
-        }
-
-
-
     </style>
 </head>
 <body>
-    <div class="flex__wrap">
-        <img class="logo" src="../asset/efinder_logo_black.png" alt="efind logo">
-    <div class="wrapper">
-        <div class="flex_form_fields">
-            <h1>Sign In</h1>
-            <form action="#" method="post">
-            <label for="email">Email Address</label>
-            <br>
-            <input class="input__fields" type="email" name="email" id="" placeholder="Enter your email..">
-            <br>
-            <label for="password">Passcode</label>
-            <br>
-            <input class="input__fields" type="password" name="password" placeholder="Enter your password..">
-            <br>
-            <input class="btn" type="button" value="Sign In" id="loginBtn">
-        </form>
-        <p>Don't have an account?<a href="./SignUp.html"> Sign Up</a></p>
+    <div class="auth-wrapper">
+        <div class="auth-image"></div>
+        
+        <div class="login-container">
+            <a href="../pages/index.html" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        <div class="login-header">
+            <h1 class="h2 fw-bold mb-2">Welcome Back</h1>
+            <p class="mb-0 opacity-90">Sign in to your eFinder account</p>
+        </div>
+        
+        <div class="p-4">
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email">
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="Enter your password">
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">
+                            Remember me
+                        </label>
+                    </div>
+                    <a href="#" class="text-decoration-none">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 mb-3">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    Sign In
+                </button>
+                
+                <div class="text-center">
+                    <p class="mb-0">Don't have an account? 
+                        <a href="./SignUp.html" class="text-decoration-none fw-semibold">Sign up here</a>
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
-    </div> 
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         // API Integration for Login
-        document.getElementById('loginBtn').addEventListener('click', async function() {
-            const email = document.querySelector('input[name="email"]').value;
-            const password = document.querySelector('input[name="password"]').value;
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
             // Basic validation
             if (!email || !password) {
                 alert('Please fill in all fields');
                 return;
             }
+
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing In...';
+            submitBtn.disabled = true;
 
             try {
                 // For now, we'll get all users and find the matching one
@@ -144,8 +201,13 @@
             } catch (error) {
                 console.error('Error:', error);
                 alert('Network error. Please try again.');
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
         });
     </script>
+    </div>
 </body>
 </html>

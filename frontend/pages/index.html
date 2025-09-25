@@ -3,165 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <link rel="stylesheet" href="homepage.css">
+    <title>eFinder - Discover Perfect Event Venues</title>
     <link rel="icon" type="image/x-icon" href="./asset/favcon.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles/custom.css?v=8">
 </head>
 <body>
-    <!-- NAV -->
-    <nav class="navbar">
-        <div class="nav-logo">
-            <a href="#"><img src="./asset/efinder_logo_black.png" alt="efind logo" class="nav-logo-img"></a>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary fs-3" href="#">
+                <i class="fas fa-building me-2"></i>eFinder
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-semibold" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="./organizer-dashboard.html">Find Venues</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="./owner-dashboard.html">List Venue</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <a href="./login.html" class="btn btn-outline-primary fw-semibold">Sign In</a>
+                    <a href="./SignUp.html" class="btn btn-primary fw-semibold">
+                        <i class="fas fa-plus me-1"></i>List Your Venue
+                    </a>
+                </div>
+            </div>
         </div>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <label for="nav-toggle" class="nav-toggle-label">
-            <span></span>
-            <span></span>
-            <span></span>
-        </label>
-        <ul class="nav-list">
-            <li><a href="#">Home</a></li>
-            <li><a href="./organizer-dashboard.html">Find Venue</a></li>
-            <li><a href="./owner-dashboard.html">Venue Listing</a></li>
-            <li><a href="./login.html">Login</a></li>
-            <li><a href="./SignUp.html">Sign Up</a></li>
-        </ul>
     </nav>
-    <!-- NAV -->
-    <div class="main__grid">
-        <!-- SEARCH BAR -->      
-        <div class="search__wrapper">
-            <h1>Welcome to eFinder</h1>
-            <h3>Find Perfect Event Venues in Osu</h3>
-            <div class="search__box">
-                <input class="search__bar" type="text" placeholder="Search for venues...">
-                <button id="filterBtn">Filters</button>
+    <!-- Hero Section -->
+    <section class="hero-section position-relative" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../uploads/image.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <div class="hero-overlay position-absolute w-100 h-100"></div>
+        <div class="container position-relative">
+            <div class="row justify-content-center text-center text-white py-5">
+                <div class="col-lg-8">
+                    <div class="hero-content py-5">
+                        <span class="badge bg-primary mb-3 px-3 py-2">EVENT VENUES</span>
+                        <h1 class="display-4 fw-bold mb-4">Find the Perfect Venue for Your Event</h1>
+                        <p class="lead mb-5">Discover unique spaces for meetings, parties, weddings, and corporate events</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- SEARCH BAR -->
+    </section>
 
-         <!-- SEARCH FILTER -->
-          <div class="filter_flex_wrapper">
-            <div class="filter__wrapper" id="filterOptions">
-        <div class="filter__group">
-            <label>Price Range (GHS)</label>
-            <input type="range" class="filter__range">
-            <div>Up to GHS 15,000</div>
+    <!-- Search Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="search-section bg-white rounded-3 p-4 shadow-lg">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="searchInput" placeholder="What are you looking for?">
+                                    <label for="searchInput">What are you looking for?</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="locationSelect">
+                                        <option value="">Choose location</option>
+                                        <option value="accra">Accra</option>
+                                        <option value="kumasi">Kumasi</option>
+                                        <option value="tema">Tema</option>
+                                        <option value="takoradi">Takoradi</option>
+                                    </select>
+                                    <label for="locationSelect">Location</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="categorySelect">
+                                        <option value="">Event type</option>
+                                        <option value="wedding">Wedding</option>
+                                        <option value="corporate">Corporate</option>
+                                        <option value="party">Party</option>
+                                        <option value="conference">Conference</option>
+                                    </select>
+                                    <label for="categorySelect">Event Type</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-100 h-100 d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-search me-2"></i>Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="filter__group">
-            <label>Minimum Capacity</label>
-            <select class="filter__select">
-                <option>Any size</option>
-                <option>Up to 50</option>
-                <option>Up to 100</option>
-                <option>Up to 500</option>
-            </select>
-        </div>
-        <div class="filter__group">
-            <label>Location</label>
-            <select class="filter__select">
-                <option>All locations</option>
-                <option>Osu Castle Road</option>
-                <option>Labadi Beach</option>
-                <option>Contoment</option>
-                <option>Oxford Street</option>
-            </select>
-        </div>
-        <div class="filter__group">
-            <label>Event Type</label>
-            <select class="filter__select">
-                <option>All types</option>
-                <option>Wedding</option>
-                <option>Conference</option>
-                <option>Party</option>
-                <option>Corporate</option>
-                <option>Entertaiment</option>
-            </select>
-        </div>
-        <div class="filter__checkbox">
-            <input type="checkbox" id="availableOnly">
-            <label for="availableOnly">Show only available venues</label>
-        </div>
-    </div>
-          </div>
-        </div>
-        <!-- SEARCH FILTER -->
+    </section>
 
-         <!-- VENUE RESULTS -->
-            <div class="results__header">
-                <h2>3 venues found</h2>
-                <span class="results__location">Showing venues in Osu, Accra</span>
+    <!-- Categories Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="display-5 fw-bold mb-3">Popular Event Categories</h2>
+                    <p class="lead text-muted">Find the perfect venue for any type of event</p>
+                </div>
             </div>
-            <div class="venue__cards">
-                <!-- Card 1 -->
-                <div class="venue__card">
-                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80" alt="Elegant Gardens Event Center" class="venue__img">
-                    <div class="venue__info">
-                        <div class="venue__title">
-                            Elegant Gardens Event Center
-                            <span class="venue__rating">★ 4.8</span>
+            
+            <div class="row g-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="category-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-heart text-primary fs-1"></i>
                         </div>
-                        <div class="venue__location">East Legon, Osu</div>
-                        <div class="venue__capacity">Up to 500 guests</div>
-                        <div class="venue__tags">
-                            <span>Parking</span>
-                            <span>Catering</span>
-                            <span>Sound System</span>
-                            <span>+1 more</span>
-                        </div>
-                        <div class="venue__price-status">
-                            <span class="venue__price">GHS 8,000 <span class="venue__perday">per day</span></span>
-                            <span class="venue__available">Available</span>
-                        </div>
+                        <h5 class="fw-bold">Weddings</h5>
+                        <p class="text-muted small">(24 venues)</p>
                     </div>
                 </div>
-                <!-- Card 2 -->
-                <div class="venue__card">
-                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Grand Palace Hall" class="venue__img">
-                    <div class="venue__info">
-                        <div class="venue__title">
-                            Grand Palace Hall
-                            <span class="venue__rating">★ 4.6</span>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="category-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-briefcase text-primary fs-1"></i>
                         </div>
-                        <div class="venue__location">Osu Castle Road</div>
-                        <div class="venue__capacity">Up to 300 guests</div>
-                        <div class="venue__tags">
-                            <span>AC</span>
-                            <span>Decoration</span>
-                            <span>Security</span>
-                            <span>+1 more</span>
-                        </div>
-                        <div class="venue__price-status">
-                            <span class="venue__price">GHS 6,000 <span class="venue__perday">per day</span></span>
-                            <span class="venue__booked">Booked</span>
-                        </div>
+                        <h5 class="fw-bold">Corporate</h5>
+                        <p class="text-muted small">(18 venues)</p>
                     </div>
                 </div>
-                <!-- Card 3 -->
-                <div class="venue__card">
-                    <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=400&q=80" alt="Sunset Beach Resort" class="venue__img">
-                    <div class="venue__info">
-                        <div class="venue__title">
-                            Sunset Beach Resort
-                            <span class="venue__rating">★ 4.9</span>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="category-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-birthday-cake text-primary fs-1"></i>
                         </div>
-                        <div class="venue__location">Labadi Beach</div>
-                        <div class="venue__capacity">Up to 200 guests</div>
-                        <div class="venue__tags">
-                            <span>Beachfront</span>
-                            <span>Bar</span>
-                            <span>Live Music</span>
-                            <span>+1 more</span>
+                        <h5 class="fw-bold">Parties</h5>
+                        <p class="text-muted small">(32 venues)</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="category-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-users text-primary fs-1"></i>
                         </div>
-                        <div class="venue__price-status">
-                            <span class="venue__price">GHS 10,000 <span class="venue__perday">per day</span></span>
-                            <span class="venue__available">Available</span>
+                        <h5 class="fw-bold">Conferences</h5>
+                        <p class="text-muted small">(15 venues)</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="category-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-utensils text-primary fs-1"></i>
                         </div>
+                        <h5 class="fw-bold">Restaurants</h5>
+                        <p class="text-muted small">(28 venues)</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="category-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-music text-primary fs-1"></i>
+                        </div>
+                        <h5 class="fw-bold">Entertainment</h5>
+                        <p class="text-muted small">(12 venues)</p>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="homepage_script.js"></script>
-    </body>
+    </section>
+
+    <!-- Featured Venues Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <span class="badge bg-primary mb-3 px-3 py-2">FEATURED VENUES</span>
+                    <h2 class="display-5 fw-bold mb-3">Discover Amazing Event Spaces</h2>
+                    <p class="lead text-muted">Handpicked venues perfect for your next event</p>
+                </div>
+            </div>
+            
+            <div class="row g-4" id="venuesGrid">
+                <!-- Venues will be loaded here dynamically -->
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="./organizer-dashboard.html" class="btn btn-outline-primary btn-lg">
+                    View All Venues <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <span class="badge bg-primary mb-3 px-3 py-2">HOW IT WORKS</span>
+                    <h2 class="display-5 fw-bold mb-3">Find Your Perfect Venue in 3 Simple Steps</h2>
+                    <p class="lead text-muted">Making event planning effortless and enjoyable</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                            <i class="fas fa-search fs-3"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">1. Search & Discover</h4>
+                        <p class="text-muted">Browse through our curated collection of unique venues. Filter by location, capacity, and event type to find the perfect match.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                            <i class="fas fa-calendar-check fs-3"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">2. Book & Reserve</h4>
+                        <p class="text-muted">Check availability, compare prices, and book your venue instantly. Our secure booking system ensures a smooth reservation process.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                            <i class="fas fa-party-horn fs-3"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">3. Host & Enjoy</h4>
+                        <p class="text-muted">Show up and create unforgettable memories. Our venue partners are committed to making your event a success.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="display-6 fw-bold mb-3">Ready to Host Your Next Event?</h2>
+                    <p class="lead mb-0">Join thousands of event organizers who trust eFinder for their venue needs.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="./SignUp.html" class="btn btn-light btn-lg">
+                        Get Started Today <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-building me-2"></i>eFinder
+                    </h5>
+                    <p class="text-muted">Connecting event organizers with the perfect venues. Making every event memorable.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-muted"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="fw-bold mb-3">For Organizers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="./organizer-dashboard.html" class="text-muted text-decoration-none">Find Venues</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">How It Works</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Pricing</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="fw-bold mb-3">For Venues</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="./owner-dashboard.html" class="text-muted text-decoration-none">List Your Venue</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Venue Benefits</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Success Stories</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="fw-bold mb-3">Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Careers</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Press</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="fw-bold mb-3">Legal</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms of Service</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2024 eFinder. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">Made with <i class="fas fa-heart text-danger"></i> in Ghana</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle" id="scrollToTop" style="width: 50px; height: 50px; display: none; z-index: 1000;">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../scripts/homepage_script.js"></script>
+</body>
 </html>
