@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard - eFinder</title>
+    <link rel="icon" type="image/x-icon" href="../asset/favcon.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles/custom.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary fs-3" href="../pages/index.html">
+                <i class="fas fa-building me-2"></i>eFinder
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <span class="nav-link fw-semibold" id="userName">Welcome, Owner</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link fw-semibold" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-1"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4 bg-light p-4">
+                <div class="text-center mb-4">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <i class="fas fa-user fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1" id="userNameSidebar">Owner Name</h5>
+                    <p class="text-muted small">Venue Owner</p>
+                </div>
+                
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action active" data-bs-toggle="tab" data-bs-target="#dashboard">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab" data-bs-target="#venues">
+                        <i class="fas fa-building me-2"></i>My Venues
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab" data-bs-target="#bookings">
+                        <i class="fas fa-calendar-check me-2"></i>Bookings
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab" data-bs-target="#analytics">
+                        <i class="fas fa-chart-bar me-2"></i>Analytics
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div class="col-lg-9 col-md-8 p-4">
+                <div class="tab-content">
+                    <!-- Dashboard Tab -->
+                    <div class="tab-pane fade show active" id="dashboard">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="fw-bold">Dashboard Overview</h2>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVenueModal">
+                                <i class="fas fa-plus me-2"></i>Add New Venue
+                            </button>
+                        </div>
+                        
+                        <!-- Stats Cards -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="card-title">Total Venues</h6>
+                                                <h3 class="fw-bold" id="totalVenues">0</h3>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="fas fa-building fs-1 opacity-75"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="card-title">Total Bookings</h6>
+                                                <h3 class="fw-bold" id="totalBookings">0</h3>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="fas fa-calendar-check fs-1 opacity-75"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="card-title">Total Revenue</h6>
+                                                <h3 class="fw-bold" id="totalRevenue">GHS 0</h3>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="fas fa-dollar-sign fs-1 opacity-75"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card bg-info text-white">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="card-title">Avg Rating</h6>
+                                                <h3 class="fw-bold" id="avgRating">0.0</h3>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="fas fa-star fs-1 opacity-75"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Recent Activity -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Recent Activity</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">New booking received</h6>
+                                            <small class="text-muted">Grand Ballroom - Wedding Event</small>
+                                        </div>
+                                        <span class="badge bg-primary">2 hours ago</span>
+                                    </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Venue updated</h6>
+                                            <small class="text-muted">Conference Center Labadi</small>
+                                        </div>
+                                        <span class="badge bg-secondary">1 day ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Venues Tab -->
+                    <div class="tab-pane fade" id="venues">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="fw-bold">My Venues</h2>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVenueModal">
+                                <i class="fas fa-plus me-2"></i>Add New Venue
+                            </button>
+                        </div>
+                        
+                        <div class="row g-4" id="venuesGrid">
+                            <!-- Venues will be loaded here -->
+                        </div>
+                        
+                        <div id="noVenues" class="text-center py-5" style="display: none;">
+                            <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px;">
+                                <i class="fas fa-building text-muted fs-1"></i>
+                            </div>
+                            <h4 class="fw-bold">No venues yet</h4>
+                            <p class="text-muted">Add your first venue to start attracting customers!</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVenueModal">
+                                <i class="fas fa-plus me-2"></i>Add Your First Venue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Bookings Tab -->
+                    <div class="tab-pane fade" id="bookings">
+                        <h2 class="fw-bold mb-4">Recent Bookings</h2>
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="text-muted">Booking management features coming soon...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analytics Tab -->
+                    <div class="tab-pane fade" id="analytics">
+                        <h2 class="fw-bold mb-4">Analytics</h2>
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="text-muted">Analytics dashboard coming soon...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Venue Modal -->
+    <div class="modal fade" id="addVenueModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Add New Venue</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="venueForm">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="venueName" class="form-label">Venue Name *</label>
+                                <input type="text" class="form-control" id="venueName" name="name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="venueLocation" class="form-label">Location *</label>
+                                <input type="text" class="form-control" id="venueLocation" name="location" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="venueDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="venueDescription" name="description" rows="3"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="venueCapacity" class="form-label">Capacity *</label>
+                                <input type="number" class="form-control" id="venueCapacity" name="capacity" min="1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="venuePrice" class="form-label">Price (GHS) *</label>
+                                <input type="number" class="form-control" id="venuePrice" name="price" min="0" step="0.01" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="venueContactEmail" class="form-label">Contact Email</label>
+                                <input type="email" class="form-control" id="venueContactEmail" name="contact_email">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="venueContactPhone" class="form-label">Contact Phone</label>
+                                <input type="tel" class="form-control" id="venueContactPhone" name="contact_phone">
+                            </div>
+                            <div class="col-12">
+                                <label for="venuePhoto" class="form-label">Venue Photo</label>
+                                <input type="file" class="form-control" id="venuePhoto" name="photo" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Venue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+        let currentUser = null;
+        let editingVenueId = null;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadVenues();
+        });
+
+        function loadUserData() {
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                document.getElementById('userName').textContent = `Welcome, ${currentUser.name}`;
+                document.getElementById('userNameSidebar').textContent = currentUser.name;
+            } else {
+                // Redirect to login if no user data
+                window.location.href = './login.html';
+            }
+        }
+
+        async function loadVenues() {
+            try {
+                const response = await fetch(`${API_BASE}/venues/owner/${currentUser._id}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayVenues(data.venues);
+                    updateStats(data.venues);
+                } else {
+                    console.error('Error loading venues:', data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function displayVenues(venues) {
+            const venuesGrid = document.getElementById('venuesGrid');
+            const noVenues = document.getElementById('noVenues');
+
+            if (venues.length === 0) {
+                venuesGrid.style.display = 'none';
+                noVenues.style.display = 'block';
+                return;
+            }
+
+            venuesGrid.style.display = 'flex';
+            noVenues.style.display = 'none';
+
+            venuesGrid.innerHTML = venues.map(venue => `
+                <div class="col-lg-6">
+                    <div class="card h-100">
+                        <div class="venue-image" style="height: 200px; background-image: url('${venue.photoUrl || 'https://images.unsplash.com/photo-1519167758481-83f1426e4b1e?auto=format&fit=crop&w=400&q=80'}'); background-size: cover; background-position: center;">
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge ${venue.isActive ? 'bg-success' : 'bg-secondary'}">${venue.isActive ? 'Active' : 'Inactive'}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${venue.name}</h5>
+                            <p class="card-text text-muted">${venue.description || 'No description available'}</p>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted">
+                                        <i class="fas fa-map-marker-alt me-1"></i>${venue.location}
+                                    </small>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">
+                                        <i class="fas fa-users me-1"></i>${venue.capacity} guests
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="h5 text-primary mb-0">GHS ${venue.price}</span>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="editVenue('${venue._id}')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteVenue('${venue._id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats(venues) {
+            document.getElementById('totalVenues').textContent = venues.length;
+            // You can add more stats calculations here
+        }
+
+        function editVenue(venueId) {
+            // Find venue data and populate form
+            // This would require fetching venue details
+            editingVenueId = venueId;
+            document.getElementById('modalTitle').textContent = 'Edit Venue';
+            const modal = new bootstrap.Modal(document.getElementById('addVenueModal'));
+            modal.show();
+        }
+
+        async function deleteVenue(venueId) {
+            if (!confirm('Are you sure you want to delete this venue?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/venues/${venueId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Venue deleted successfully!');
+                    loadVenues(); // Reload venues
+                } else {
+                    const data = await response.json();
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error. Please try again.');
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('venueForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('venueName').value);
+            formData.append('description', document.getElementById('venueDescription').value);
+            formData.append('location', document.getElementById('venueLocation').value);
+            formData.append('capacity', document.getElementById('venueCapacity').value);
+            formData.append('price', document.getElementById('venuePrice').value);
+            formData.append('contact_email', document.getElementById('venueContactEmail').value);
+            formData.append('contact_phone', document.getElementById('venueContactPhone').value);
+            formData.append('owner_id', currentUser._id);
+
+            const photoFile = document.getElementById('venuePhoto').files[0];
+            if (photoFile) {
+                formData.append('photo', photoFile);
+            }
+
+            try {
+                const url = editingVenueId ? 
+                    `${API_BASE}/venues/${editingVenueId}` : 
+                    `${API_BASE}/venues`;
+                
+                const method = editingVenueId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(editingVenueId ? 'Venue updated successfully!' : 'Venue created successfully!');
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addVenueModal'));
+                    modal.hide();
+                    loadVenues(); // Reload venues
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error. Please try again.');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = './login.html';
+        }
+
+        // Reset modal when closed
+        document.getElementById('addVenueModal').addEventListener('hidden.bs.modal', function() {
+            document.getElementById('venueForm').reset();
+            document.getElementById('modalTitle').textContent = 'Add New Venue';
+            editingVenueId = null;
+        });
+    </script>
+</body>
+</html>

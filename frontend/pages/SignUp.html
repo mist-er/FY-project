@@ -3,132 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - eFinder</title>
     <link rel="icon" type="image/x-icon" href="../asset/favcon.ico">
-    <title>SignUp Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles/custom.css?v=7">
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
-
-        *{
-            font-family: 'Jost', sans-serif;
-            color: aliceblue;
-        }
-        .flex__wrap {
+        body {
+            background: white;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            flex-direction: column;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
         }
-
-        .wrapper {
-            border: 2px solid rgb(194, 181, 181);
-            /* height: 810px; */
-            width: 280px;
-            padding: 9px;
-            border-radius: 10px;
-            background-color: #e3e1e1;
-            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.075);
-        }
-
-        .flex_form_fields {
+        
+        .auth-wrapper {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-left: 15px;
-            height: 500px;
-            /* border: 1px solid red; */
+            width: 100%;
+            max-width: 1000px;
+            min-height: 100vh;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .auth-image {
+            flex: 1;
+            background: url('../uploads/i.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+        
+        .signup-container {
+            flex: 1;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            display: flex;
             flex-direction: column;
+            justify-content: center;
+            padding: 40px;
         }
-        .btn {
-            background-color: #1d4ed8;
-            padding: 9px 25px;
-            border-color: rgb(109, 119, 122);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 250px;
-            font-size: 16px;
-            color: #fff;
+        
+        .signup-header {
+            background: white;
+            color: #ff6b35;
+            padding: 40px 30px;
+            text-align: center;
         }
-
-        p a {
+        
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ff6b35;
             text-decoration: none;
-            color: #1d4ed8;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
         }
-        p , h1, label{
-            color: rgb(118, 111, 111);
+        
+        .back-home:hover {
+            opacity: 0.8;
+            color: #e55a2b;
         }
-        p {
-            padding-right: 18px;
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .auth-wrapper {
+                flex-direction: column;
+                max-width: 100%;
+                min-height: auto;
+            }
+            
+            .auth-image {
+                min-height: 200px;
+                order: 2;
+            }
+            
+            .signup-container {
+                order: 1;
+                padding: 20px;
+            }
         }
-
-        .input__fields {
-            width: 230px;
-            border-radius: 6px;
-            padding: 10px;
-            border: 1.2px solid rgb(215, 205, 205);
-            margin-bottom: 19px;
+        
+        .role-option {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
         }
-        ::placeholder {
-            color: rgb(188, 186, 186);
-            font-size: 16px;
+        
+        .role-option:hover {
+            border-color: #ff6b35;
+            transform: translateY(-2px);
         }
-
-        .btn:hover {
-            background-color: rgb(118, 111, 111);
-            transition: all 0.2s ease-in-out 0.02s;
+        
+        .role-option.selected {
+            border-color: #ff6b35;
+            background: #fff5f0;
         }
-
-        .logo {
-            height: 100px;
+        
+        .role-option i {
+            font-size: 2rem;
+            color: #ff6b35;
+            margin-bottom: 10px;
         }
-
-    select[name="selectedOption"] {
-        width: 250px;
-        border-radius: 6px;
-        padding: 10px;
-        border: 1.2px solid rgb(215, 205, 205);
-        margin-bottom: 19px;
-        color: rgb(118, 111, 111);
-        background-color: #e3e1e1;
-        background-color: rgb(168, 160, 160);
-        color: #fff;
-}
-
-
     </style>
 </head>
 <body>
-    <div class="flex__wrap">
-        <img class="logo" src="../asset/efinder_logo_black.png" alt="efind logo">
-    <div class="wrapper">
-        <div class="flex_form_fields">
-            <h1>Sign Up</h1>
-            <form action="#" method="post">
-            <label for="name">Full Name</label>
-            <br>
-            <input class="input__fields" type="text" name="name" id="" placeholder="Enter your full name">
-            <br>
-            <label for="email">Email Address</label>
-            <br>
-            <input class="input__fields" type="email" name="email" id="" placeholder="Enter your email..">
-            <br>
-            <label for="password">Passcode</label>
-            <br>
-            <input class="input__fields" type="password" name="password" placeholder="Enter your password..">
-            <br>
-            <label for="form_dropdown">Account Type</label>
-            <br>
-            <select name="selectedOption" id="">
-                <option value="eventOrganizer">Event Organizer</option>
-                <option value="venueOrganizer">Venue Manager</option>
-            </select>
-            <input class="btn" type="button" value="Sign In">
-        </form>
-        <p>Don't have an account?<a href="./index.html"> Sign In</a></p>
+    <div class="auth-wrapper">
+        <div class="auth-image"></div>
+        
+        <div class="signup-container">
+            <a href="../pages/index.html" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        <div class="signup-header">
+            <h1 class="h2 fw-bold mb-2">Join eFinder</h1>
+            <p class="mb-0 opacity-90">Create your account and start discovering venues</p>
+        </div>
+        
+        <div class="p-4">
+            <form id="signupForm">
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-semibold">Full Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email">
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="Create a password">
+                    </div>
+                    <div class="form-text">Password must be at least 8 characters long</div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Account Type</label>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="role-option" data-role="organizer">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h6 class="fw-bold mb-1">Event Organizer</h6>
+                                <small class="text-muted">Find and book venues</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="role-option" data-role="owner">
+                                <i class="fas fa-building"></i>
+                                <h6 class="fw-bold mb-1">Venue Owner</h6>
+                                <small class="text-muted">List your venue</small>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="role" name="role" value="organizer">
+                </div>
+                
+                <div class="mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                        <label class="form-check-label" for="agreeTerms">
+                            I agree to the <a href="#" class="text-decoration-none">Terms of Service</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 mb-3">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Create Account
+                </button>
+                
+                <div class="text-center">
+                    <p class="mb-0">Already have an account? 
+                        <a href="./login.html" class="text-decoration-none fw-semibold">Sign in here</a>
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
-    </div> 
-</body>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Role selection
+        document.querySelectorAll('.role-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('role').value = this.dataset.role;
+            });
+        });
+        
+        // Set default selection
+        document.querySelector('.role-option[data-role="organizer"]').classList.add('selected');
+        
+        // API Integration for SignUp
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
 
+            // Basic validation
+            if (!name || !email || !password || !role) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (!agreeTerms) {
+                alert('Please agree to the Terms of Service and Privacy Policy');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        password: password,
+                        role: role
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Account created successfully!');
+                    // Store user data in localStorage
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    // Redirect based on role
+                    if (role === 'owner') {
+                        window.location.href = './owner-dashboard.html';
+                    } else {
+                        window.location.href = './organizer-dashboard.html';
+                    }
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error. Please try again.');
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+    </div>
+</body>
 </html>
