@@ -1,392 +1,218 @@
-# eFinder Frontend Testing Guide
+# eFinder - Event Venue Locator
 
-## Overview
-This guide provides comprehensive instructions for testing the eFinder frontend application. The frontend is a venue booking platform built with vanilla HTML, CSS, JavaScript, and Bootstrap 5.
+A full-stack web application for discovering and booking event venues. Built with Node.js/Express backend and vanilla HTML/CSS/JavaScript frontend.
 
-## Prerequisites
+## 🚀 Quick Start
 
-### Required Software
-- **Node.js** (v14 or higher)
-- **Web Browser** (Chrome, Firefox, Safari, or Edge)
-- **Backend API** (must be running on port 3000)
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (local or Atlas)
+- Git
 
-### Backend Dependencies
-Before testing the frontend, ensure the backend API is running:
+### 1. Clone the Repository
 ```bash
-cd ../backend
+git clone <repository-url>
+cd FY-project
+```
+
+### 2. Backend Setup
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Install dependencies
 npm install
+
+# Copy environment file
+cp env.example .env
+
+# Edit .env file with your configuration
+# For local MongoDB:
+MONGODB_URI=mongodb://localhost:27017/event-venue-locator
+
+# For MongoDB Atlas:
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/event-venue-locator
+
+# Start the backend server
 npm start
 ```
-The backend should be accessible at `http://localhost:3000`
 
-## Project Structure
+Backend will run on `http://localhost:3000`
 
-```
-frontend/
-├── pages/                    # HTML pages
-│   ├── index.html           # Homepage
-│   ├── login.html           # User login
-│   ├── SignUp.html          # User registration
-│   ├── organizer-dashboard.html  # Event organizer dashboard
-│   └── owner-dashboard.html      # Venue owner dashboard
-├── scripts/                 # JavaScript files
-│   └── homepage_script.js   # Homepage functionality
-├── styles/                  # CSS files
-│   ├── custom.css          # Custom styles
-│   └── homepage.css        # Homepage specific styles
-├── asset/                   # Static assets
-│   ├── efinder_logo_black.png
-│   └── favcon.ico
-├── uploads/                 # User uploaded images
-├── server.js               # Frontend development server
-└── README.md               # This file
-```
+### 3. Frontend Setup
 
-## Starting the Frontend Server
-
-### Method 1: Using the Built-in Server
 ```bash
+# Open new terminal and navigate to frontend directory
 cd frontend
+
+# Start the frontend server
 node server.js
 ```
-The frontend will be available at: `http://localhost:8000`
 
-### Method 2: Using a Local Web Server
-If you prefer using a different server:
-```bash
-# Using Python 3
-python -m http.server 8000
+Frontend will run on `http://localhost:8080`
 
-# Using Python 2
-python -m SimpleHTTPServer 8000
+## 📁 Project Structure
 
-# Using Node.js http-server (install globally first)
-npm install -g http-server
-http-server -p 8000
+```
+FY-project/
+├── backend/                 # Node.js/Express API
+│   ├── src/
+│   │   ├── controllers/     # Route handlers
+│   │   ├── models/         # MongoDB schemas
+│   │   ├── routes/         # API endpoints
+│   │   ├── middleware/     # Validation & upload
+│   │   └── config/         # Database config
+│   ├── uploads/            # File uploads
+│   └── package.json
+├── frontend/               # HTML/CSS/JS frontend
+│   ├── pages/             # HTML pages
+│   ├── styles/            # CSS files
+│   ├── scripts/           # JavaScript files
+│   ├── uploads/           # Frontend images
+│   └── server.js          # Frontend server
+└── README.md
 ```
 
-## Testing Scenarios
+## 🔧 Environment Configuration
 
-### 1. Homepage Testing (`index.html`)
+### Backend (.env)
+```env
+PORT=3000
+NODE_ENV=development
+MONGODB_URI=mongodb://localhost:27017/event-venue-locator
+JWT_SECRET=your-super-secret-jwt-key-here
+JWT_EXPIRES_IN=7d
+UPLOAD_PATH=./uploads
+MAX_FILE_SIZE=5242880
+```
 
-**URL:** `http://localhost:8000/pages/index.html`
+## 🎯 Features
 
-#### Test Cases:
-1. **Page Load**
-   - [ ] Page loads without errors
-   - [ ] All images display correctly
-   - [ ] Navigation menu is responsive
-   - [ ] Hero section displays properly
+### Frontend
+- **Responsive Design**: Mobile-first approach with Bootstrap
+- **Hero Section**: Dynamic background with optimized mobile positioning
+- **Authentication**: Split-screen login/signup with image backgrounds
+- **Search Functionality**: Venue search with filters
+- **Dashboard**: Separate interfaces for venue owners and event organizers
 
-2. **Search Functionality**
-   - [ ] Search input accepts text
-   - [ ] Location dropdown works
-   - [ ] Event type dropdown works
-   - [ ] Search button triggers search
-   - [ ] Enter key triggers search
+### Backend
+- **RESTful API**: Complete CRUD operations for venues, users, and bookings
+- **File Upload**: Image upload for venue photos
+- **Input Validation**: Comprehensive validation using express-validator
+- **MongoDB Integration**: Mongoose ODM for database operations
 
-3. **Category Cards**
-   - [ ] All 6 category cards display
-   - [ ] Cards are clickable
-   - [ ] Clicking redirects to organizer dashboard
+## 🛠️ Development
 
-4. **Venue Display**
-   - [ ] Venues load from API (if backend running)
-   - [ ] Fallback message shows if no venues
-   - [ ] Venue cards display correctly
-   - [ ] Book Now buttons work
+### Backend Development
+```bash
+cd backend
+npm run dev  # Auto-restart on changes
+```
 
-5. **Navigation**
-   - [ ] All navigation links work
-   - [ ] Sign In button redirects to login
-   - [ ] List Your Venue button redirects to signup
-   - [ ] Mobile menu toggles correctly
+### Frontend Development
+```bash
+cd frontend
+node server.js  # Static file server
+```
 
-6. **Responsive Design**
-   - [ ] Page works on desktop (1200px+)
-   - [ ] Page works on tablet (768px-1199px)
-   - [ ] Page works on mobile (<768px)
+## 📱 Responsive Breakpoints
 
-### 2. User Registration Testing (`SignUp.html`)
+- **Desktop**: >768px - Full-screen hero section
+- **Tablet**: ≤768px - 60vh hero height
+- **Mobile**: ≤576px - 50vh hero height
+- **Small Mobile**: ≤480px - 45vh hero height
 
-**URL:** `http://localhost:8000/pages/SignUp.html`
+## 🧪 Testing
 
-#### Test Cases:
-1. **Form Validation**
-   - [ ] All required fields are marked
-   - [ ] Email validation works
-   - [ ] Password minimum length (8 characters)
-   - [ ] Terms agreement required
+### Backend API Testing
+```bash
+# Test user creation
+curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com","password":"Password123","role":"owner"}'
 
-2. **Role Selection**
-   - [ ] Event Organizer option selectable
-   - [ ] Venue Owner option selectable
-   - [ ] Visual feedback on selection
-   - [ ] Default selection is Event Organizer
+# Test venue creation
+curl -X POST http://localhost:3000/api/venues \
+  -F "name=Test Venue" \
+  -F "location=123 Main St" \
+  -F "capacity=100" \
+  -F "price=500" \
+  -F "owner_id=USER_ID"
+```
 
-3. **API Integration**
-   - [ ] Form submits to backend API
-   - [ ] Success message on account creation
-   - [ ] User data stored in localStorage
-   - [ ] Redirect based on role (organizer → organizer-dashboard, owner → owner-dashboard)
+### Frontend Testing
+1. Open `http://localhost:8080` in browser
+2. Test responsive design on different screen sizes
+3. Verify authentication pages load correctly
+4. Test search functionality
+5. Check dashboard functionality
 
-4. **Error Handling**
-   - [ ] Network error handling
-   - [ ] Duplicate email handling
-   - [ ] Invalid data handling
+## 🚀 Deployment
 
-### 3. User Login Testing (`login.html`)
+### Backend Deployment
+1. Set production environment variables
+2. Use PM2 or similar process manager
+3. Configure reverse proxy (nginx)
+4. Set up MongoDB Atlas for production
 
-**URL:** `http://localhost:8000/pages/login.html`
+### Frontend Deployment
+1. Build static files
+2. Deploy to CDN or static hosting
+3. Configure API endpoints for production
 
-#### Test Cases:
-1. **Form Validation**
-   - [ ] Email field required
-   - [ ] Password field required
-   - [ ] Email format validation
+## 📚 API Endpoints
 
-2. **Authentication**
-   - [ ] Valid credentials login successfully
-   - [ ] Invalid credentials show error
-   - [ ] User data stored in localStorage
-   - [ ] Redirect based on user role
+### Users
+- `POST /api/users` - Create user
+- `GET /api/users` - Get all users
+- `GET /api/users/:id` - Get user by ID
 
-3. **Remember Me**
-   - [ ] Checkbox functionality
-   - [ ] Data persistence (if implemented)
-
-4. **Navigation**
-   - [ ] Back to Home link works
-   - [ ] Sign up link works
-   - [ ] Forgot password link (placeholder)
-
-### 4. Organizer Dashboard Testing (`organizer-dashboard.html`)
-
-**URL:** `http://localhost:8000/pages/organizer-dashboard.html`
-
-#### Prerequisites:
-- Must be logged in as an organizer
-- Backend API must be running
-
-#### Test Cases:
-1. **Authentication**
-   - [ ] Redirects to login if not authenticated
-   - [ ] Displays user name correctly
-   - [ ] Logout functionality works
-
-2. **Venue Browsing**
-   - [ ] Venues load from API
-   - [ ] Venue cards display correctly
-   - [ ] Filter by location works
-   - [ ] Filter by category works
-   - [ ] No venues message displays when empty
-
-3. **Booking Functionality**
-   - [ ] Book Now button opens modal
-   - [ ] Booking form validation
-   - [ ] Event name required
-   - [ ] Event date required
-   - [ ] Start/end time required
-   - [ ] Form submission works
-   - [ ] Success message on booking
-
-4. **My Bookings Tab**
-   - [ ] Bookings load from API
-   - [ ] Booking details display correctly
-   - [ ] Status badges show correct colors
-   - [ ] No bookings message when empty
-
-5. **Navigation**
-   - [ ] Tab switching works
-   - [ ] Sidebar navigation works
-   - [ ] Home link works
-
-### 5. Owner Dashboard Testing (`owner-dashboard.html`)
-
-**URL:** `http://localhost:8000/pages/owner-dashboard.html`
-
-#### Prerequisites:
-- Must be logged in as a venue owner
-- Backend API must be running
-
-#### Test Cases:
-1. **Authentication**
-   - [ ] Redirects to login if not authenticated
-   - [ ] Displays user name correctly
-   - [ ] Logout functionality works
-
-2. **Dashboard Overview**
-   - [ ] Stats cards display correctly
-   - [ ] Total venues count updates
-   - [ ] Recent activity shows
-
-3. **Venue Management**
-   - [ ] My Venues tab shows owned venues
-   - [ ] Add New Venue button opens modal
-   - [ ] Venue form validation
-   - [ ] Required fields marked
-   - [ ] File upload for venue photo
-   - [ ] Form submission creates venue
-   - [ ] Edit venue functionality
-   - [ ] Delete venue functionality
-
-4. **Venue Form Fields**
-   - [ ] Venue name (required)
-   - [ ] Location (required)
-   - [ ] Description
-   - [ ] Capacity (required, number)
-   - [ ] Price (required, number)
-   - [ ] Contact email
-   - [ ] Contact phone
-   - [ ] Photo upload
-
-5. **Navigation**
-   - [ ] Tab switching works
-   - [ ] Sidebar navigation works
-   - [ ] Home link works
-
-## API Integration Testing
-
-### Backend Endpoints Used:
-- `GET /api/venues` - Fetch all venues
-- `GET /api/venues/search` - Search venues with filters
-- `GET /api/venues/owner/:id` - Fetch venues by owner
-- `POST /api/venues` - Create new venue
+### Venues
+- `POST /api/venues` - Create venue
+- `GET /api/venues` - Get all venues
+- `GET /api/venues/search` - Search venues
 - `PUT /api/venues/:id` - Update venue
 - `DELETE /api/venues/:id` - Delete venue
-- `GET /api/users` - Fetch all users (for login)
-- `POST /api/users` - Create new user
-- `GET /api/bookings/organizer/:id` - Fetch organizer bookings
-- `POST /api/bookings` - Create new booking
 
-### Testing API Connectivity:
-1. **With Backend Running:**
-   - [ ] All API calls succeed
-   - [ ] Data displays correctly
-   - [ ] Error handling works
+### Bookings
+- `POST /api/bookings` - Create booking
+- `GET /api/bookings` - Get all bookings
+- `PUT /api/bookings/:id` - Update booking
+- `PATCH /api/bookings/:id/status` - Update booking status
 
-2. **Without Backend Running:**
-   - [ ] Graceful fallback messages
-   - [ ] No JavaScript errors
-   - [ ] Static content still works
+## 🐛 Troubleshooting
 
-## Browser Compatibility Testing
+### Common Issues
 
-### Desktop Browsers:
-- [ ] Chrome (latest)
-- [ ] Firefox (latest)
-- [ ] Safari (latest)
-- [ ] Edge (latest)
+**Backend won't start:**
+- Check MongoDB connection
+- Verify environment variables
+- Ensure port 3000 is available
 
-### Mobile Browsers:
-- [ ] Chrome Mobile
-- [ ] Safari Mobile
-- [ ] Firefox Mobile
+**Frontend images not loading:**
+- Check file paths in uploads folder
+- Clear browser cache
+- Verify server.js is running
 
-### Responsive Breakpoints:
-- [ ] Mobile: < 768px
-- [ ] Tablet: 768px - 1199px
-- [ ] Desktop: ≥ 1200px
+**CSS changes not visible:**
+- Clear browser cache
+- Check cache-busting parameters in HTML
+- Verify CSS file paths
 
-## Performance Testing
+## 📄 License
 
-### Load Time:
-- [ ] Homepage loads in < 3 seconds
-- [ ] Images load properly
-- [ ] No broken resources
+This project is licensed under the MIT License.
 
-### JavaScript Performance:
-- [ ] No console errors
-- [ ] Smooth animations
-- [ ] Responsive interactions
+## 🤝 Contributing
 
-## Security Testing
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-### Client-Side Security:
-- [ ] No sensitive data in localStorage (except user session)
-- [ ] Input validation on forms
-- [ ] XSS prevention in user inputs
+## 📞 Support
 
-### Authentication:
-- [ ] Protected routes redirect to login
-- [ ] Session persistence works
-- [ ] Logout clears session data
+For support, KINDLY HIT ME UP 
 
-## Common Issues and Solutions
-
-### Issue: "Network error" messages
-**Solution:** Ensure backend API is running on port 3000
-
-### Issue: Images not loading
-**Solution:** Check file paths and ensure images exist in uploads folder
-
-### Issue: Forms not submitting
-**Solution:** Check browser console for JavaScript errors
-
-### Issue: Styling issues
-**Solution:** Clear browser cache and ensure CSS files are loading
-
-### Issue: Mobile responsiveness problems
-**Solution:** Test on actual devices or use browser dev tools
-
-## Testing Checklist
-
-### Pre-Testing Setup:
-- [ ] Backend API is running
-- [ ] Frontend server is running
-- [ ] Browser cache is cleared
-- [ ] Test data is available in backend
-
-### Core Functionality:
-- [ ] User registration works
-- [ ] User login works
-- [ ] Venue browsing works
-- [ ] Venue booking works
-- [ ] Venue creation works (for owners)
-- [ ] Navigation works between pages
-
-### Edge Cases:
-- [ ] Empty data states
-- [ ] Network failures
-- [ ] Invalid form inputs
-- [ ] Large file uploads
-- [ ] Long text inputs
-
-### User Experience:
-- [ ] Loading states show
-- [ ] Error messages are clear
-- [ ] Success messages appear
-- [ ] Forms reset after submission
-- [ ] Navigation is intuitive
-
-## Automated Testing (Optional)
-
-For more comprehensive testing, consider implementing:
-
-1. **Unit Tests** for JavaScript functions
-2. **Integration Tests** for API calls
-3. **E2E Tests** using tools like Cypress or Playwright
-4. **Visual Regression Tests** for UI consistency
-
-## Reporting Issues
-
-When reporting issues, include:
-1. Browser and version
-2. Operating system
-3. Steps to reproduce
-4. Expected vs actual behavior
-5. Console error messages
-6. Screenshots if applicable
-
-## Development Notes
-
-- The frontend uses vanilla JavaScript (no frameworks)
-- Bootstrap 5 is used for styling and components
-- Font Awesome is used for icons
-- LocalStorage is used for session management
-- The app is designed to work offline with graceful degradation
-
----
-
-**Last Updated:** December 2024
-**Version:** 1.0.0

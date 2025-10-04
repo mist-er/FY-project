@@ -37,12 +37,12 @@ const validateVenue = [
 
   body('contact_phone')
     .optional()
-    .isMobilePhone()
-    .withMessage('Contact phone must be a valid phone number'),
+    .isLength({ min: 10, max: 15 })
+    .withMessage('Contact phone must be between 10 and 15 characters'),
 
   body('owner_id')
-    .isInt({ min: 1 })
-    .withMessage('Owner ID must be a positive integer'),
+    .isMongoId()
+    .withMessage('Owner ID must be a valid MongoDB ObjectId'),
 
   // Handle validation errors
   (req, res, next) => {
