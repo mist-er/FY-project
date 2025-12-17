@@ -49,8 +49,6 @@ app.get('/', (req, res) => {
 app.use('/api/users', require('./routes/users'));
 app.use('/api/venues', require('./routes/venues'));
 app.use('/api/bookings', require('./routes/bookings'));
-app.use('/api/payments', require('./routes/payments'));
-app.use('/api/favorites', require('./routes/favorites'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -73,7 +71,7 @@ const startServer = async () => {
   try {
     // Connect to database
     await connectDB();
-
+    
     // Start server
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);

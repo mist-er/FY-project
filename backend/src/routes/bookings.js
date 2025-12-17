@@ -29,6 +29,11 @@ router.put('/:id', verifyFirebaseIdToken, validateBookingUpdate, BookingControll
 // @access  Public (for now, will add auth later)
 router.patch('/:id/status', verifyFirebaseIdToken, validateBookingStatus, BookingController.updateBookingStatus);
 
+// @route   PATCH /api/bookings/:id/pay
+// @desc    Mark booking as paid
+// @access  Public (for now)
+router.patch('/:id/pay', verifyFirebaseIdToken, BookingController.payForBooking);
+
 // @route   DELETE /api/bookings/:id
 // @desc    Delete booking
 // @access  Public (for now, will add auth later)
@@ -38,6 +43,11 @@ router.delete('/:id', verifyFirebaseIdToken, BookingController.deleteBooking);
 // @desc    Get all bookings by organizer
 // @access  Public
 router.get('/organizer/:organizerId', BookingController.getBookingsByOrganizer);
+
+// @route   GET /api/bookings/owner/:ownerId
+// @desc    Get all bookings for venues owned by an owner
+// @access  Public
+router.get('/owner/:ownerId', BookingController.getBookingsByOwner);
 
 // @route   GET /api/bookings/venue/:venueId
 // @desc    Get all bookings by venue
@@ -53,15 +63,5 @@ router.get('/:id/stats', BookingController.getBookingStats);
 // @desc    Check venue availability for a date/time range
 // @access  Public
 router.get('/venue/:venueId/availability', BookingController.checkVenueAvailability);
-
-// @route   PATCH /api/bookings/:id/approve
-// @desc    Approve a booking (owner only)
-// @access  Public (for now, will add auth later)
-router.patch('/:id/approve', BookingController.approveBooking);
-
-// @route   PATCH /api/bookings/:id/reject
-// @desc    Reject a booking (owner only)
-// @access  Public (for now, will add auth later)
-router.patch('/:id/reject', BookingController.rejectBooking);
 
 module.exports = router;

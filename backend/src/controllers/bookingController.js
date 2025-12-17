@@ -81,8 +81,7 @@ class BookingController {
         startTime: start_time,
         endTime: end_time,
         totalCost: totalCost,
-        notes: notes || '',
-        paymentStatus: 'unpaid'
+        notes: notes || ''
       };
 
       // Create booking
@@ -111,7 +110,7 @@ class BookingController {
       });
     } catch (error) {
       console.error('Error creating booking:', error);
-
+      
       // Handle validation errors
       if (error.name === 'ValidationError') {
         const errors = Object.values(error.errors).map(err => err.message);
@@ -141,7 +140,7 @@ class BookingController {
       } = req.query;
 
       const query = {};
-
+      
       if (venue_id) query.venue = venue_id;
       if (organizer_id) query.organizer = organizer_id;
       if (status) query.status = status;
@@ -215,12 +214,19 @@ class BookingController {
         });
       }
 
+      // Allow update by either the organizer who created the booking OR the owner of the venue
       if (req.firebaseUser) {
         const organizer = await User.findById(booking.organizer);
+        const venue = await Venue.findById(booking.venue).populate('owner', 'firebaseUid');
+
+        // If organizer has a firebaseUid that doesn't match the requester, deny
         if (organizer && organizer.firebaseUid && organizer.firebaseUid !== req.firebaseUser.uid) {
-          return res.status(403).json({
-            message: 'You are not authorized to update this booking status.'
-          });
+          // But allow if the requester is the venue owner
+          if (!venue || !venue.owner || !venue.owner.firebaseUid || venue.owner.firebaseUid !== req.firebaseUser.uid) {
+            return res.status(403).json({
+              message: 'You are not authorized to update this booking status.'
+            });
+          }
         }
       }
 
@@ -289,10 +295,10 @@ class BookingController {
         }
       }
 
-      // Check if booking can be modified (only unpaidbookings)
-      if (existingBooking.paymentStatus === 'paid') {
+      // Check if booking can be modified (only pending bookings)
+      if (existingBooking.status !== 'pending') {
         return res.status(400).json({
-          message: 'Cannot modify paid bookings'
+          message: 'Only pending bookings can be modified'
         });
       }
 
@@ -332,7 +338,7 @@ class BookingController {
       });
     } catch (error) {
       console.error('Error updating booking:', error);
-
+      
       // Handle validation errors
       if (error.name === 'ValidationError') {
         const errors = Object.values(error.errors).map(err => err.message);
@@ -353,7 +359,7 @@ class BookingController {
   static async deleteBooking(req, res) {
     try {
       const { id } = req.params;
-
+      
       // Check if booking exists
       const booking = await Booking.findById(id);
       if (!booking) {
@@ -397,7 +403,7 @@ class BookingController {
   static async getBookingsByOrganizer(req, res) {
     try {
       const { organizerId } = req.params;
-
+      
       // Check if organizer exists
       const organizer = await User.findById(organizerId);
       if (!organizer) {
@@ -429,7 +435,7 @@ class BookingController {
   static async getBookingsByVenue(req, res) {
     try {
       const { venueId } = req.params;
-
+      
       // Check if venue exists
       const venue = await Venue.findById(venueId);
       if (!venue) {
@@ -457,16 +463,69 @@ class BookingController {
     }
   }
 
+  // Get bookings for all venues owned by an owner
+  static async getBookingsByOwner(req, res) {
+    try {
+      const { ownerId } = req.params;
+      const { status, limit = 20, offset = 0 } = req.query;
+
+      // Check if owner exists
+      const owner = await User.findById(ownerId);
+      if (!owner) {
+        return res.status(404).json({
+          message: 'Owner not found'
+        });
+      }
+
+      // Find all venues owned by this owner
+      const venues = await Venue.find({ owner: ownerId }).select('_id');
+      const venueIds = venues.map(v => v._id);
+
+      // If owner has no venues, return empty
+      if (!venueIds.length) {
+        return res.json({
+          message: 'Owner bookings retrieved successfully',
+          owner: owner,
+          bookings: [],
+          count: 0
+        });
+      }
+
+      const query = { venue: { $in: venueIds } };
+      if (status) query.status = status;
+
+      const bookings = await Booking.find(query)
+        .populate('venue', 'name location capacity price owner')
+        .populate('organizer', 'name email role')
+        .sort({ createdAt: -1 })
+        .limit(parseInt(limit))
+        .skip(parseInt(offset));
+
+      res.json({
+        message: 'Owner bookings retrieved successfully',
+        owner: owner,
+        bookings: bookings,
+        count: bookings.length
+      });
+    } catch (error) {
+      console.error('Error getting owner bookings:', error);
+      res.status(500).json({
+        message: 'Error retrieving owner bookings',
+        error: error.message
+      });
+    }
+  }
+
   // Get booking statistics
   static async getBookingStats(req, res) {
     try {
       const { id } = req.params;
-
+      
       // Check if booking exists
       const booking = await Booking.findById(id)
         .populate('venue', 'name location capacity price')
         .populate('organizer', 'name email role');
-
+      
       if (!booking) {
         return res.status(404).json({
           message: 'Booking not found'
@@ -492,6 +551,42 @@ class BookingController {
         message: 'Error retrieving booking statistics',
         error: error.message
       });
+    }
+  }
+
+  // Mark booking as paid (simple endpoint to record payment)
+  static async payForBooking(req, res) {
+    try {
+      const { id } = req.params;
+      const { paymentReference } = req.body;
+
+      const booking = await Booking.findById(id);
+      if (!booking) {
+        return res.status(404).json({ message: 'Booking not found' });
+      }
+
+      // Optional: only organizer can mark as paid. If firebase auth available, verify.
+      if (req.firebaseUser) {
+        const organizer = await User.findById(booking.organizer);
+        if (organizer && organizer.firebaseUid && organizer.firebaseUid !== req.firebaseUser.uid) {
+          return res.status(403).json({ message: 'You are not authorized to pay for this booking.' });
+        }
+      }
+
+      booking.isPaid = true;
+      booking.paymentReference = paymentReference || '';
+      booking.paymentDate = new Date();
+
+      await booking.save();
+      const populated = await Booking.findById(id).populate([ 
+        { path: 'venue', select: 'name location capacity price owner' },
+        { path: 'organizer', select: 'name email role' }
+      ]);
+
+      res.json({ message: 'Payment recorded successfully', booking: populated });
+    } catch (error) {
+      console.error('Error recording payment:', error);
+      res.status(500).json({ message: 'Error recording payment', error: error.message });
     }
   }
 
@@ -556,109 +651,6 @@ class BookingController {
     }
   }
 
-  // Approve booking (owner only)
-  static async approveBooking(req, res) {
-    try {
-      const { id } = req.params;
-      const { owner_id } = req.body;
-
-      // Check if booking exists
-      const booking = await Booking.findById(id)
-        .populate('venue', 'name owner')
-        .populate('organizer', 'name email');
-
-      if (!booking) {
-        return res.status(404).json({
-          message: 'Booking not found'
-        });
-      }
-
-      // Check if booking is pending
-      if (booking.status !== 'pending') {
-        return res.status(400).json({
-          message: 'Only pending bookings can be approved'
-        });
-      }
-
-      // Verify the user is the venue owner
-      if (booking.venue.owner.toString() !== owner_id) {
-        return res.status(403).json({
-          message: 'Only the venue owner can approve bookings'
-        });
-      }
-
-      // Update booking status
-      booking.status = 'approved';
-      booking.approvedBy = owner_id;
-      booking.approvedAt = new Date();
-
-      await booking.save();
-
-      res.json({
-        message: 'Booking approved successfully',
-        booking: booking
-      });
-    } catch (error) {
-      console.error('Error approving booking:', error);
-      res.status(500).json({
-        message: 'Error approving booking',
-        error: error.message
-      });
-    }
-  }
-
-  // Reject booking (owner only)
-  static async rejectBooking(req, res) {
-    try {
-      const { id } = req.params;
-      const { owner_id, rejection_reason } = req.body;
-
-      // Check if booking exists
-      const booking = await Booking.findById(id)
-        .populate('venue', 'name owner')
-        .populate('organizer', 'name email');
-
-      if (!booking) {
-        return res.status(404).json({
-          message: 'Booking not found'
-        });
-      }
-
-      // Check if booking is pending
-      if (booking.status !== 'pending') {
-        return res.status(400).json({
-          message: 'Only pending bookings can be rejected'
-        });
-      }
-
-      // Verify the user is the venue owner
-      if (booking.venue.owner.toString() !== owner_id) {
-        return res.status(403).json({
-          message: 'Only the venue owner can reject bookings'
-        });
-      }
-
-      // Update booking status
-      booking.status = 'rejected';
-      if (rejection_reason) {
-        booking.notes = `${booking.notes}\n\nRejection reason: ${rejection_reason}`;
-      }
-
-      await booking.save();
-
-      res.json({
-        message: 'Booking rejected successfully',
-        booking: booking
-      });
-    } catch (error) {
-      console.error('Error rejecting booking:', error);
-      res.status(500).json({
-        message: 'Error rejecting booking',
-        error: error.message
-      });
-    }
-  }
-
   // Helper method to calculate duration between two times
   static calculateDuration(startTime, endTime) {
     const start = new Date(`2000-01-01T${startTime}:00`);
@@ -675,7 +667,7 @@ class BookingController {
     const e1 = new Date(`2000-01-01T${end1}:00`);
     const s2 = new Date(`2000-01-01T${start2}:00`);
     const e2 = new Date(`2000-01-01T${end2}:00`);
-
+    
     return (s1 < e2 && e1 > s2);
   }
 }

@@ -42,15 +42,11 @@ const userSchema = new mongoose.Schema({
   fcmTokens: {
     type: [String],
     default: []
-  },
-  favoriteVenues: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Venue' }],
-    default: []
   }
 }, {
   timestamps: true,
   toJSON: {
-    transform: function (doc, ret) {
+    transform: function(doc, ret) {
       delete ret.password;
       return ret;
     }
@@ -63,7 +59,7 @@ userSchema.index({ role: 1 });
 userSchema.index({ firebaseUid: 1 }, { sparse: true });
 
 // Hash password before saving
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
   if (!this.isModified('password') || !this.password) return next();
 
   try {
@@ -76,7 +72,7 @@ userSchema.pre('save', async function (next) {
 });
 
 // Instance method to verify password
-userSchema.methods.verifyPassword = async function (candidatePassword) {
+userSchema.methods.verifyPassword = async function(candidatePassword) {
   try {
     return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) {
@@ -85,7 +81,7 @@ userSchema.methods.verifyPassword = async function (candidatePassword) {
 };
 
 // Instance method to get venues owned by this user
-userSchema.methods.getVenues = async function () {
+userSchema.methods.getVenues = async function() {
   try {
     const Venue = mongoose.model('Venue');
     return await Venue.find({ owner: this._id, isActive: true });
@@ -94,7 +90,7 @@ userSchema.methods.getVenues = async function () {
   }
 };
 
-userSchema.methods.addFcmToken = async function (token) {
+userSchema.methods.addFcmToken = async function(token) {
   if (!token) return this;
 
   if (!this.fcmTokens.includes(token)) {
@@ -105,41 +101,13 @@ userSchema.methods.addFcmToken = async function (token) {
   return this;
 };
 
-// Instance method to add venue to favorites
-userSchema.methods.addFavorite = async function (venueId) {
-  if (!this.favoriteVenues.includes(venueId)) {
-    this.favoriteVenues.push(venueId);
-    await this.save();
-  }
-  return this;
-};
-
-// Instance method to remove venue from favorites
-userSchema.methods.removeFavorite = async function (venueId) {
-  this.favoriteVenues = this.favoriteVenues.filter(
-    id => id.toString() !== venueId.toString()
-  );
-  await this.save();
-  return this;
-};
-
-// Instance method to get favorite venues
-userSchema.methods.getFavorites = async function () {
-  const Venue = mongoose.model('Venue');
-  return await Venue.find({
-    _id: { $in: this.favoriteVenues },
-    isActive: true
-  });
-};
-
-
 // Static method to find user by email (including password for login)
-userSchema.statics.findByEmailWithPassword = function (email) {
+userSchema.statics.findByEmailWithPassword = function(email) {
   return this.findOne({ email }).select('+password');
 };
 
 // Static method to find user by email (without password)
-userSchema.statics.findByEmail = function (email) {
+userSchema.statics.findByEmail = function(email) {
   return this.findOne({ email });
 };
 

@@ -21,14 +21,6 @@ const venueSchema = new mongoose.Schema({
     minlength: [5, 'Location must be at least 5 characters'],
     maxlength: [200, 'Location cannot exceed 200 characters']
   },
-  category: {
-    type: String,
-    enum: {
-      values: ['corporate', 'party', 'wedding', 'meeting', 'other'],
-      message: 'Category must be corporate, party, wedding, meeting, or other'
-    },
-    default: 'other'
-  },
   capacity: {
     type: Number,
     required: [true, 'Capacity is required'],
@@ -59,6 +51,11 @@ const venueSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
+  category: {
+    type: String,
+    enum: ['Wedding', 'Corporate', 'Party', 'Conference', 'Other'],
+    default: 'Other'
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -77,6 +74,7 @@ const venueSchema = new mongoose.Schema({
 // Indexes for better query performance
 venueSchema.index({ name: 'text', description: 'text', location: 'text' });
 venueSchema.index({ location: 1 });
+venueSchema.index({ category: 1 });
 venueSchema.index({ capacity: 1 });
 venueSchema.index({ price: 1 });
 venueSchema.index({ owner: 1 });
@@ -91,30 +89,34 @@ venueSchema.virtual('ownerInfo', {
 });
 
 // Static method to find venues with filters
-venueSchema.statics.findWithFilters = function (filters = {}) {
+venueSchema.statics.findWithFilters = function(filters = {}) {
   const query = { isActive: true };
-
+  
   // Add filters
   if (filters.location) {
     query.location = { $regex: filters.location, $options: 'i' };
   }
-
+  
+  if (filters.category) {
+    query.category = filters.category;
+  }
+  
   if (filters.minCapacity) {
     query.capacity = { ...query.capacity, $gte: filters.minCapacity };
   }
-
+  
   if (filters.maxCapacity) {
     query.capacity = { ...query.capacity, $lte: filters.maxCapacity };
   }
-
+  
   if (filters.minPrice) {
     query.price = { ...query.price, $gte: filters.minPrice };
   }
-
+  
   if (filters.maxPrice) {
     query.price = { ...query.price, $lte: filters.maxPrice };
   }
-
+  
   if (filters.ownerId) {
     query.owner = filters.ownerId;
   }
@@ -127,17 +129,21 @@ venueSchema.statics.findWithFilters = function (filters = {}) {
 };
 
 // Static method to search venues
-venueSchema.statics.searchVenues = function (searchTerm, filters = {}) {
+venueSchema.statics.searchVenues = function(searchTerm, filters = {}) {
   const query = {
     isActive: true,
     $text: { $search: searchTerm }
   };
-
+  
   // Add additional filters
+  if (filters.category) {
+    query.category = filters.category;
+  }
+  
   if (filters.minCapacity) {
     query.capacity = { ...query.capacity, $gte: filters.minCapacity };
   }
-
+  
   if (filters.maxPrice) {
     query.price = { ...query.price, $lte: filters.maxPrice };
   }
@@ -149,13 +155,13 @@ venueSchema.statics.searchVenues = function (searchTerm, filters = {}) {
 };
 
 // Instance method to check availability for a date
-venueSchema.methods.isAvailableForDate = async function (date) {
+venueSchema.methods.isAvailableForDate = async function(date) {
   try {
     const Booking = mongoose.model('Booking');
     const booking = await Booking.findOne({
       venue: this._id,
       eventDate: new Date(date),
-      status: { $in: ['approved', 'confirmed'] }
+      status: 'confirmed'
     });
     return !booking;
   } catch (error) {
@@ -163,32 +169,8 @@ venueSchema.methods.isAvailableForDate = async function (date) {
   }
 };
 
-// Instance method to get availability status
-venueSchema.methods.getAvailabilityStatus = async function (date) {
-  try {
-    const Booking = mongoose.model('Booking');
-    const bookings = await Booking.find({
-      venue: this._id,
-      eventDate: new Date(date),
-      status: { $in: ['pending', 'approved', 'confirmed'] }
-    });
-
-    if (bookings.length === 0) {
-      return 'available';
-    }
-
-    const hasConfirmedOrApproved = bookings.some(b =>
-      b.status === 'confirmed' || b.status === 'approved'
-    );
-
-    return hasConfirmedOrApproved ? 'fully_booked' : 'unavailable';
-  } catch (error) {
-    throw new Error('Error checking venue availability status');
-  }
-};
-
 // Instance method to get venue statistics
-venueSchema.methods.getStats = async function () {
+venueSchema.methods.getStats = async function() {
   try {
     const Booking = mongoose.model('Booking');
     const stats = await Booking.aggregate([
@@ -207,7 +189,7 @@ venueSchema.methods.getStats = async function () {
         }
       }
     ]);
-
+    
     return stats[0] || {
       totalBookings: 0,
       confirmedBookings: 0,
@@ -220,7 +202,7 @@ venueSchema.methods.getStats = async function () {
 };
 
 // Instance method to soft delete
-venueSchema.methods.softDelete = function () {
+venueSchema.methods.softDelete = function() {
   this.isActive = false;
   return this.save();
 };
