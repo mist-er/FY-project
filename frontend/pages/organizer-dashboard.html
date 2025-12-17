@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,16 +13,18 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../styles/custom.css?v=9">
+    <!-- Dark Theme CSS -->
+    <link rel="stylesheet" href="../styles/dark-theme.css">
     <style>
         body {
             overflow-x: hidden;
         }
-
+        
         .dashboard-wrapper {
             display: flex;
             min-height: 100vh;
         }
-
+        
         /* Sidebar Styles */
         .sidebar {
             width: 280px;
@@ -33,15 +34,15 @@
             height: 100vh;
             overflow-y: auto;
             z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         }
-
+        
         .sidebar-header {
             padding: 25px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             background: rgba(255, 107, 53, 0.1);
         }
-
+        
         .sidebar-logo {
             display: flex;
             align-items: center;
@@ -52,21 +53,29 @@
             text-decoration: none;
             margin-bottom: 20px;
         }
-
+        
+        .sidebar-logo img {
+            height: 50px;
+            width: auto;
+            max-width: 170px;
+            object-fit: contain;
+            filter: brightness(1.15);
+        }
+        
         .sidebar-logo i {
             font-size: 28px;
         }
-
+        
         .user-profile {
             display: flex;
             align-items: center;
             gap: 15px;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255,255,255,0.05);
             border-radius: 10px;
             margin-top: 15px;
         }
-
+        
         .user-avatar {
             width: 50px;
             height: 50px;
@@ -78,59 +87,60 @@
             color: white;
             font-size: 20px;
             font-weight: bold;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255,255,255,0.2);
         }
-
+        
         .user-info h6 {
             margin: 0;
             font-size: 14px;
             font-weight: 600;
         }
-
+        
         .user-info p {
             margin: 0;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
         }
-
+        
         .sidebar-nav {
             padding: 20px 0;
         }
-
+        
         .nav-item {
             margin: 5px 15px;
         }
-
+        
         .nav-link {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 12px 15px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255,255,255,0.8);
             text-decoration: none;
             border-radius: 8px;
             transition: all 0.3s ease;
             font-size: 14px;
             font-weight: 500;
         }
-
+        
         .nav-link i {
             width: 20px;
             text-align: center;
             font-size: 16px;
         }
-
+        
         .nav-link:hover {
             background: rgba(255, 107, 53, 0.15);
             color: #ff6b35;
         }
-
+        
         .nav-link.active {
-            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            background: linear-gradient(135deg, #ff6b3521, #f7931e96);
             color: white;
-            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
-        }
+            box-shadow: 0 4px 10px rgb(255 107 53 / 27%);
 
+        }
+        
         /* Main Content Area */
         .main-content {
             margin-left: 280px;
@@ -138,38 +148,42 @@
             background: #f8f9fa;
             min-height: 100vh;
         }
-
+        
         .content-header {
             background: white;
             padding: 25px 30px;
             border-bottom: 1px solid #e9ecef;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
+        
         .content-header h1 {
             font-size: 28px;
             font-weight: bold;
             color: #2c3e50;
             margin: 0;
         }
-
+        
         .content-header .greeting {
             color: #6c757d;
             font-size: 16px;
             margin-top: 5px;
         }
-
+        
         .content-body {
             padding: 30px;
         }
 
+        .card-padding {
+            padding: 15px 13px 15px 13px;
+        }
+        
         /* Action Buttons */
         .action-buttons {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-
+        
         .btn-action {
             padding: 10px 20px;
             border-radius: 8px;
@@ -181,46 +195,46 @@
             gap: 8px;
             transition: all 0.3s ease;
         }
-
+        
         .btn-action-primary {
             background: linear-gradient(135deg, #ff6b35, #f7931e);
             color: white;
         }
-
+        
         .btn-action-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
             color: white;
         }
-
+        
         .btn-action-outline {
             background: white;
             color: #ff6b35;
             border: 2px solid #ff6b35;
         }
-
+        
         .btn-action-outline:hover {
             background: #ff6b35;
             color: white;
         }
-
+        
         /* Venue Cards */
         .venue-card {
             background: white;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             height: 100%;
             border: 1px solid #f0f0f0;
         }
-
+        
         .venue-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
             border-color: #ff6b35;
         }
-
+        
         .venue-image {
             height: 240px;
             background-size: cover;
@@ -228,7 +242,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .venue-image::after {
             content: '';
             position: absolute;
@@ -236,15 +250,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 50%);
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 50%);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-
+        
         .venue-card:hover .venue-image::after {
             opacity: 1;
         }
-
+        
         /* Sidebar Overlay for Mobile */
         .sidebar-overlay {
             display: none;
@@ -258,11 +272,11 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-
+        
         .sidebar-overlay.active {
             opacity: 1;
         }
-
+        
         .mobile-menu-btn {
             display: none;
             position: fixed;
@@ -275,223 +289,221 @@
             padding: 12px 16px;
             border-radius: 8px;
             font-size: 18px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             min-width: 48px;
             min-height: 48px;
         }
-
+        
         .mobile-menu-btn:active {
             transform: scale(0.95);
         }
-
+        
         /* Hide Google Maps Error Messages */
-        #venueMap>div[style*="color: rgb(51, 51, 51)"],
-        #venueMap>div[style*="Oops"],
-        #venueMap>div:has-text("Oops"),
+        #venueMap > div[style*="color: rgb(51, 51, 51)"],
+        #venueMap > div[style*="Oops"],
+        #venueMap > div:has-text("Oops"),
         #venueMap div[role="alert"],
         #venueMap div[style*="background-color: white"]:has-text("Something went wrong") {
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
         }
-
+        
         /* Hide any error overlays */
-        #venueMap>div>div[style*="position: absolute"]:has-text("Oops"),
-        #venueMap>div>div[style*="position: absolute"]:has-text("Something went wrong") {
+        #venueMap > div > div[style*="position: absolute"]:has-text("Oops"),
+        #venueMap > div > div[style*="position: absolute"]:has-text("Something went wrong") {
             display: none !important;
         }
-
+        
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 width: 280px;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
-                box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+                box-shadow: 2px 0 20px rgba(0,0,0,0.3);
             }
-
+            
             .sidebar.open {
                 transform: translateX(0);
             }
-
+            
             .sidebar-overlay {
                 display: block;
             }
-
+            
             .main-content {
                 margin-left: 0;
                 width: 100%;
             }
-
+            
             .mobile-menu-btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
             }
-
+            
             .content-header {
                 padding: 20px 15px;
                 margin-top: 70px;
             }
-
+            
             .content-header h1 {
                 font-size: 22px;
             }
-
+            
             .content-header .greeting {
                 font-size: 14px;
             }
-
+            
             .content-body {
                 padding: 20px 15px;
             }
-
+            
             .action-buttons {
                 flex-direction: column;
                 width: 100%;
                 gap: 10px;
             }
-
+            
             .btn-action {
                 width: 100%;
                 justify-content: center;
                 padding: 12px 20px;
                 font-size: 15px;
             }
-
+            
             .venue-card {
                 margin-bottom: 20px;
             }
-
+            
             .venue-image {
                 height: 180px;
             }
-
+            
             .sidebar-header {
                 padding: 20px 15px;
             }
-
+            
             .sidebar-logo {
                 font-size: 20px;
             }
-
+            
             .user-profile {
                 padding: 12px;
                 gap: 12px;
             }
-
+            
             .user-avatar {
                 width: 45px;
                 height: 45px;
                 font-size: 18px;
             }
-
+            
             .user-info h6 {
                 font-size: 13px;
             }
-
+            
             .user-info p {
                 font-size: 11px;
             }
-
+            
             .nav-link {
                 padding: 14px 15px;
                 font-size: 15px;
             }
-
+            
             .nav-link i {
                 font-size: 18px;
             }
-
+            
             /* Modal Responsive */
             .modal-dialog {
                 margin: 10px;
             }
-
+            
             .modal-content {
                 border-radius: 15px !important;
             }
-
+            
             .modal-body {
                 padding: 20px 15px !important;
             }
-
+            
             .modal-header {
                 padding: 20px 15px !important;
             }
-
+            
             /* Booking Modal Mobile */
             #bookingModal .modal-body .row {
                 margin: 0;
             }
-
+            
             #bookingModal .modal-body .col-md-6,
             #bookingModal .modal-body .col-md-3 {
                 margin-bottom: 15px;
             }
-
+            
             /* Map Modal Mobile */
             #mapModal .modal-dialog {
                 max-width: 95%;
                 margin: 10px auto;
             }
-
+            
             #venueMap {
                 height: 400px !important;
             }
-
+            
             /* Venue Details Modal Mobile */
             #venueDetailsModal .modal-dialog {
                 max-width: 95%;
                 margin: 10px auto;
             }
-
+            
             #venueDetailsModal .row.g-0 {
                 flex-direction: column;
             }
-
+            
             #venueDetailsModal .col-lg-6 {
                 width: 100%;
             }
-
+            
             #venueImageCarousel {
                 min-height: 300px !important;
             }
         }
-
+        
         @media (max-width: 480px) {
             .sidebar {
                 width: 260px;
             }
-
+            
             .content-header {
                 padding: 15px;
                 margin-top: 65px;
             }
-
+            
             .content-header h1 {
                 font-size: 20px;
             }
-
+            
             .content-body {
                 padding: 15px;
             }
-
+            
             .venue-image {
                 height: 160px;
             }
         }
     </style>
 </head>
-
 <body>
     <div class="dashboard-wrapper">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <a href="../pages/index.html" class="sidebar-logo">
-                    <i class="fas fa-building"></i>
-                    <span>eFinder</span>
+                    <img src="../uploads/efinder_logo.png" alt="eFinder Logo">
                 </a>
                 <div class="user-profile">
                     <div class="user-avatar" id="userAvatar">O</div>
@@ -501,7 +513,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <nav class="sidebar-nav">
                 <div class="nav-item">
                     <a href="#" class="nav-link active" data-tab="venues">
@@ -529,21 +541,23 @@
                 </div>
             </nav>
         </aside>
-
+        
         <!-- Main Content -->
         <main class="main-content">
             <button class="mobile-menu-btn" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-
+            
             <div class="content-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h1>EVENT ORGANIZER DASHBOARD</h1>
-                        <p class="greeting" id="greeting">Good morning! Find and book the perfect venue for your events.
-                        </p>
+                        <p class="greeting" id="greeting">Good morning! Find and book the perfect venue for your events.</p>
                     </div>
                     <div class="action-buttons">
+                        <button class="theme-toggle-btn" title="Toggle Dark Theme" aria-label="Toggle Dark Theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
                         <button class="btn btn-action btn-action-outline" onclick="showBookings()">
                             <i class="fas fa-calendar"></i>
                             <span>View Bookings</span>
@@ -551,7 +565,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="content-body">
                 <!-- Venues Tab -->
                 <div class="tab-pane active" id="venues-tab">
@@ -560,74 +574,55 @@
                         <div class="d-flex gap-2">
                             <select class="form-select" id="locationFilter" style="width: auto;">
                                 <option value="">All Locations</option>
-                                <option value="osu badu">Osu Badu</option>
-                                <option value="osu re">Osu RE</option>
-                                <option value="oxford street">Oxford Street</option>
-                                <option value="cantonments">Cantonments</option>
-                                <option value="labone">Labone</option>
-                                <option value="airport residential">Airport Residential</option>
-                                <option value="ringway estates">Ringway Estates</option>
+                                <option value="accra">Accra</option>
+                                <option value="kumasi">Kumasi</option>
+                                <option value="tema">Tema</option>
                             </select>
                             <select class="form-select" id="categoryFilter" style="width: auto;">
                                 <option value="">All Categories</option>
                                 <option value="wedding">Wedding</option>
                                 <option value="corporate">Corporate</option>
                                 <option value="party">Party</option>
-                                <option value="meeting">Meeting</option>
-                            </select>
-                            <select class="form-select" id="availabilityFilter" style="width: auto;">
-                                <option value="">Any Availability</option>
-                                <option value="available">Available</option>
-                                <option value="unavailable">Unavailable</option>
                             </select>
                         </div>
                     </div>
-
+                    
                     <div class="row g-4" id="venuesGrid">
                         <!-- Venues will be loaded here -->
                     </div>
-
+                    
                     <div id="noVenues" class="text-center py-5" style="display: none;">
-                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                            style="width: 100px; height: 100px;">
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px;">
                             <i class="fas fa-building text-muted fs-1"></i>
                         </div>
                         <h4 class="fw-bold">No venues available</h4>
                         <p class="text-muted">Check back later for new venues!</p>
                     </div>
                 </div>
-
+                
                 <!-- Bookings Tab -->
                 <div class="tab-pane" id="bookings-tab" style="display: none;">
                     <h2 class="fw-bold mb-4">My Bookings</h2>
                     <div id="bookingsList">
                         <!-- Bookings will be loaded here -->
                     </div>
-
+                    
                     <div id="noBookings" class="text-center py-5" style="display: none;">
-                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                            style="width: 100px; height: 100px;">
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px;">
                             <i class="fas fa-calendar-times text-muted fs-1"></i>
                         </div>
                         <h4 class="fw-bold">No bookings yet</h4>
                         <p class="text-muted">Start by browsing and booking venues!</p>
                     </div>
                 </div>
-
+                
                 <!-- Favorites Tab -->
                 <div class="tab-pane" id="favorites-tab" style="display: none;">
                     <h2 class="fw-bold mb-4">Favorite Venues</h2>
-                    <div class="row g-4" id="favoritesGrid">
-                        <!-- Favorite venues will be loaded here -->
-                    </div>
-
-                    <div id="noFavorites" class="text-center py-5" style="display: none;">
-                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                            style="width: 100px; height: 100px;">
-                            <i class="fas fa-heart text-muted fs-1"></i>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <p class="text-muted">Favorites feature coming soon...</p>
                         </div>
-                        <h4 class="fw-bold">No favorite venues yet</h4>
-                        <p class="text-muted">Browse venues and click the heart icon to add them to your favorites!</p>
                     </div>
                 </div>
             </div>
@@ -637,122 +632,91 @@
     <!-- Booking Modal -->
     <div class="modal fade" id="bookingModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content"
-                style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-                <div class="modal-header"
-                    style="background: linear-gradient(135deg, #ff6b35, #f7931e); color: white; border: none; padding: 30px;">
+            <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                <div class="modal-header" style="background: linear-gradient(135deg, #ff6b35, #f7931e); color: white; border: none; padding: 30px;">
                     <div style="flex: 1;">
                         <h4 class="modal-title mb-2" id="modalTitle" style="font-weight: 700; font-size: 28px;">
                             <i class="fas fa-calendar-check me-2"></i>Book Your Venue
                         </h4>
-                        <p class="mb-0" style="opacity: 0.95; font-size: 15px;">Fill in the details below to complete
-                            your booking</p>
+                        <p class="mb-0" style="opacity: 0.95; font-size: 15px;">Fill in the details below to complete your booking</p>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        style="opacity: 1; background: rgba(255,255,255,0.2); border-radius: 50%; padding: 8px;"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="opacity: 1; background: rgba(255,255,255,0.2); border-radius: 50%; padding: 8px;"></button>
                 </div>
                 <form id="bookingForm">
                     <div class="modal-body" style="padding: 40px; background: #f8f9fa;">
                         <div class="row g-4">
                             <div class="col-12">
-                                <div
-                                    style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                                    <label for="eventName" class="form-label fw-bold"
-                                        style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
-                                        <div
-                                            style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <div style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                                    <label for="eventName" class="form-label fw-bold" style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
                                             <i class="fas fa-calendar-check"></i>
                                         </div>
                                         <span>Event Name *</span>
                                     </label>
-                                    <input type="text" class="form-control" id="eventName" name="event_name" required
-                                        placeholder="e.g., Annual Company Dinner, Wedding Reception"
-                                        style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 16px; transition: all 0.3s;">
+                                    <input type="text" class="form-control" id="eventName" name="event_name" required placeholder="e.g., Annual Company Dinner, Wedding Reception" style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 16px; transition: all 0.3s;">
                                     <div class="form-text mt-2" style="color: #6c757d; font-size: 13px;">
-                                        <i class="fas fa-lightbulb me-1" style="color: #ff6b35;"></i>Give your event a
-                                        memorable name
+                                        <i class="fas fa-lightbulb me-1" style="color: #ff6b35;"></i>Give your event a memorable name
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <div class="col-md-6">
-                                <div
-                                    style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 100%;">
-                                    <label for="eventDate" class="form-label fw-bold"
-                                        style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
-                                        <div
-                                            style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <div style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 100%;">
+                                    <label for="eventDate" class="form-label fw-bold" style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
                                             <i class="fas fa-calendar-alt"></i>
                                         </div>
                                         <span>Event Date *</span>
                                     </label>
-                                    <input type="date" class="form-control" id="eventDate" name="event_date" required
-                                        style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 16px; transition: all 0.3s;">
+                                    <input type="date" class="form-control" id="eventDate" name="event_date" required style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 16px; transition: all 0.3s;">
                                 </div>
                             </div>
-
+                            
                             <div class="col-md-3">
-                                <div
-                                    style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 100%;">
-                                    <label for="startTime" class="form-label fw-bold"
-                                        style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
-                                        <div
-                                            style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <div style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 100%;">
+                                    <label for="startTime" class="form-label fw-bold" style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
                                             <i class="fas fa-clock"></i>
                                         </div>
                                         <span>Start *</span>
                                     </label>
-                                    <input type="time" class="form-control" id="startTime" name="start_time" required
-                                        style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 16px; transition: all 0.3s;">
+                                    <input type="time" class="form-control" id="startTime" name="start_time" required style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 16px; transition: all 0.3s;">
                                 </div>
                             </div>
-
+                            
                             <div class="col-md-3">
-                                <div
-                                    style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 100%;">
-                                    <label for="endTime" class="form-label fw-bold"
-                                        style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
-                                        <div
-                                            style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <div style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 100%;">
+                                    <label for="endTime" class="form-label fw-bold" style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
                                             <i class="fas fa-clock"></i>
                                         </div>
                                         <span>End *</span>
                                     </label>
-                                    <input type="time" class="form-control" id="endTime" name="end_time" required
-                                        style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 16px; transition: all 0.3s;">
+                                    <input type="time" class="form-control" id="endTime" name="end_time" required style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 16px; transition: all 0.3s;">
                                 </div>
                             </div>
-
+                            
                             <div class="col-12">
-                                <div
-                                    style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                                    <label for="notes" class="form-label fw-bold"
-                                        style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
-                                        <div
-                                            style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <div style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                                    <label for="notes" class="form-label fw-bold" style="color: #2c3e50; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
                                             <i class="fas fa-sticky-note"></i>
                                         </div>
                                         <span>Special Requirements</span>
                                     </label>
-                                    <textarea class="form-control" id="notes" name="notes" rows="5"
-                                        placeholder="Any special requirements, dietary restrictions, equipment needs, decoration preferences, or additional notes for the venue owner..."
-                                        style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 15px; resize: vertical; transition: all 0.3s; min-height: 120px;"></textarea>
+                                    <textarea class="form-control" id="notes" name="notes" rows="5" placeholder="Any special requirements, dietary restrictions, equipment needs, decoration preferences, or additional notes for the venue owner..." style="border: 2px solid #e9ecef; border-radius: 12px; padding: 14px 18px; font-size: 15px; resize: vertical; transition: all 0.3s; min-height: 120px;"></textarea>
                                     <div class="form-text mt-2" style="color: #6c757d; font-size: 13px;">
-                                        <i class="fas fa-info-circle me-1" style="color: #ff6b35;"></i>Let the venue
-                                        owner know about any special needs or preferences
+                                        <i class="fas fa-info-circle me-1" style="color: #ff6b35;"></i>Let the venue owner know about any special needs or preferences
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"
-                        style="padding: 25px 40px; border-top: 2px solid #e9ecef; background: white;">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                            style="padding: 14px 28px; border-radius: 12px; font-weight: 600; border: 2px solid #dee2e6; font-size: 15px;">
+                    <div class="modal-footer" style="padding: 25px 40px; border-top: 2px solid #e9ecef; background: white;">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="padding: 14px 28px; border-radius: 12px; font-weight: 600; border: 2px solid #dee2e6; font-size: 15px;">
                             <i class="fas fa-times me-2"></i>Cancel
                         </button>
-                        <button type="submit" class="btn btn-primary"
-                            style="padding: 14px 35px; border-radius: 12px; font-weight: 700; font-size: 16px; background: linear-gradient(135deg, #ff6b35, #f7931e); border: none; box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);">
+                        <button type="submit" class="btn btn-primary" style="padding: 14px 35px; border-radius: 12px; font-weight: 700; font-size: 16px; background: linear-gradient(135deg, #ff6b35, #f7931e); border: none; box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);">
                             <i class="fas fa-check-circle me-2"></i>Confirm Booking
                         </button>
                     </div>
@@ -764,151 +728,113 @@
     <!-- Venue Details Modal -->
     <div class="modal fade" id="venueDetailsModal" tabindex="-1">
         <div class="modal-dialog modal-lg" style="max-width: 1200px;">
-            <div class="modal-content"
-                style="border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
+            <div class="modal-content" style="border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
                 <div class="row g-0">
                     <!-- Left Side: Image Gallery -->
                     <div class="col-lg-6">
-                        <div class="modal-header p-0 border-0"
-                            style="position: relative; height: 100%; min-height: 500px;">
-                            <div id="venueImageCarousel" class="carousel slide" data-bs-ride="false"
-                                style="height: 100%; min-height: 500px; background: #f8f9fa;">
+                        <div class="modal-header p-0 border-0" style="position: relative; height: 100%; min-height: 500px;">
+                            <div id="venueImageCarousel" class="carousel slide" data-bs-ride="false" style="height: 100%; min-height: 500px; background: #f8f9fa;">
                                 <div class="carousel-inner" id="venueImageCarouselInner" style="height: 100%;">
                                     <!-- Images will be dynamically added here -->
                                 </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#venueImageCarousel"
-                                    data-bs-slide="prev" style="opacity: 0.9; width: 50px;">
-                                    <span class="carousel-control-prev-icon"
-                                        style="background-color: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px;"></span>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#venueImageCarousel" data-bs-slide="prev" style="opacity: 0.9; width: 50px;">
+                                    <span class="carousel-control-prev-icon" style="background-color: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px;"></span>
                                 </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#venueImageCarousel"
-                                    data-bs-slide="next" style="opacity: 0.9; width: 50px;">
-                                    <span class="carousel-control-next-icon"
-                                        style="background-color: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px;"></span>
+                                <button class="carousel-control-next" type="button" data-bs-target="#venueImageCarousel" data-bs-slide="next" style="opacity: 0.9; width: 50px;">
+                                    <span class="carousel-control-next-icon" style="background-color: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px;"></span>
                                 </button>
                             </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                style="position: absolute; top: 15px; right: 15px; z-index: 10; background: white; opacity: 0.9; border-radius: 50%; padding: 8px;"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 15px; right: 15px; z-index: 10; background: white; opacity: 0.9; border-radius: 50%; padding: 8px;"></button>
                         </div>
                     </div>
-
+                    
                     <!-- Right Side: Content -->
                     <div class="col-lg-6">
-                        <div class="modal-body p-4"
-                            style="height: 100%; min-height: 500px; display: flex; flex-direction: column;">
+                        <div class="modal-body p-4" style="height: 100%; min-height: 500px; display: flex; flex-direction: column;">
                             <!-- Venue Name and Location -->
                             <div class="mb-3">
-                                <h4 class="mb-2" id="venueDetailsName"
-                                    style="color: #2c3e50; font-weight: 700; font-size: 26px;"></h4>
+                                <h4 class="mb-2" id="venueDetailsName" style="color: #2c3e50; font-weight: 700; font-size: 26px;"></h4>
                                 <p class="text-muted mb-0" style="font-size: 14px;">
                                     <i class="fas fa-map-marker-alt me-2" style="color: #ff6b35;"></i>
                                     <span id="venueDetailsLocationText"></span>
                                 </p>
                             </div>
-
+                            
                             <!-- Key Info Cards -->
                             <div class="row g-3 mb-3">
                                 <div class="col-6">
-                                    <div class="d-flex align-items-center p-2"
-                                        style="background: #f8f9fa; border-radius: 10px;">
-                                        <div class="me-2"
-                                            style="width: 40px; height: 40px; background: #ff6b35; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
+                                    <div class="d-flex align-items-center p-2" style="background: #f8f9fa; border-radius: 10px;">
+                                        <div class="me-2" style="width: 40px; height: 40px; background: #ff6b35; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
                                             <i class="fas fa-users"></i>
                                         </div>
                                         <div>
-                                            <div class="text-muted"
-                                                style="font-size: 11px; font-weight: 600; text-transform: uppercase;">
-                                                Capacity</div>
-                                            <div id="venueDetailsCapacity"
-                                                style="font-size: 18px; font-weight: 700; color: #2c3e50;"></div>
+                                            <div class="text-muted" style="font-size: 11px; font-weight: 600; text-transform: uppercase;">Capacity</div>
+                                            <div id="venueDetailsCapacity" style="font-size: 18px; font-weight: 700; color: #2c3e50;"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="d-flex align-items-center p-2"
-                                        style="background: #f8f9fa; border-radius: 10px;">
-                                        <div class="me-2"
-                                            style="width: 40px; height: 40px; background: #ff6b35; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
+                                    <div class="d-flex align-items-center p-2" style="background: #f8f9fa; border-radius: 10px;">
+                                        <div class="me-2" style="width: 40px; height: 40px; background: #ff6b35; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
                                             <i class="fas fa-money-bill-wave"></i>
                                         </div>
                                         <div>
-                                            <div class="text-muted"
-                                                style="font-size: 11px; font-weight: 600; text-transform: uppercase;">
-                                                Price</div>
-                                            <div style="font-size: 18px; font-weight: 700; color: #2c3e50;">GHS <span
-                                                    id="venueDetailsPrice"></span></div>
+                                            <div class="text-muted" style="font-size: 11px; font-weight: 600; text-transform: uppercase;">Price</div>
+                                            <div style="font-size: 18px; font-weight: 700; color: #2c3e50;">GHS <span id="venueDetailsPrice"></span></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <!-- Description -->
                             <div class="mb-3" style="flex: 1;">
-                                <h6 class="mb-2" style="color: #2c3e50; font-weight: 600; font-size: 15px;">Description
-                                </h6>
-                                <p id="venueDetailsDescription" class="text-muted mb-0"
-                                    style="line-height: 1.6; font-size: 14px; max-height: 100px; overflow-y: auto;"></p>
+                                <h6 class="mb-2" style="color: #2c3e50; font-weight: 600; font-size: 15px;">Description</h6>
+                                <p id="venueDetailsDescription" class="text-muted mb-0" style="line-height: 1.6; font-size: 14px; max-height: 100px; overflow-y: auto;"></p>
                             </div>
-
+                            
                             <!-- Contact Information -->
                             <div class="border-top pt-3">
-                                <h6 class="mb-2" style="color: #2c3e50; font-weight: 600; font-size: 15px;">Contact
-                                    Information</h6>
+                                <h6 class="mb-2" style="color: #2c3e50; font-weight: 600; font-size: 15px;">Contact Information</h6>
                                 <div>
                                     <div class="d-flex align-items-center mb-2">
-                                        <div class="me-2"
-                                            style="width: 35px; height: 35px; background: rgba(255, 107, 53, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                            <i class="fas fa-map-marker-alt"
-                                                style="color: #ff6b35; font-size: 14px;"></i>
+                                        <div class="me-2" style="width: 35px; height: 35px; background: rgba(255, 107, 53, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-map-marker-alt" style="color: #ff6b35; font-size: 14px;"></i>
                                         </div>
                                         <div>
-                                            <div class="text-muted" style="font-size: 11px; font-weight: 600;">Address
-                                            </div>
-                                            <div id="venueDetailsAddress"
-                                                style="color: #2c3e50; font-weight: 500; font-size: 13px;"></div>
+                                            <div class="text-muted" style="font-size: 11px; font-weight: 600;">Address</div>
+                                            <div id="venueDetailsAddress" style="color: #2c3e50; font-weight: 500; font-size: 13px;"></div>
                                         </div>
                                     </div>
-
-                                    <div class="d-flex align-items-center mb-2" id="venueDetailsEmailSection"
-                                        style="display: none !important;">
-                                        <div class="me-2"
-                                            style="width: 35px; height: 35px; background: rgba(255, 107, 53, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    
+                                    <div class="d-flex align-items-center mb-2" id="venueDetailsEmailSection" style="display: none !important;">
+                                        <div class="me-2" style="width: 35px; height: 35px; background: rgba(255, 107, 53, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-envelope" style="color: #ff6b35; font-size: 14px;"></i>
                                         </div>
                                         <div>
-                                            <div class="text-muted" style="font-size: 11px; font-weight: 600;">Email
-                                            </div>
-                                            <a href="#" id="venueDetailsEmail"
-                                                style="color: #ff6b35; text-decoration: none; font-weight: 500; font-size: 13px;"></a>
+                                            <div class="text-muted" style="font-size: 11px; font-weight: 600;">Email</div>
+                                            <a href="#" id="venueDetailsEmail" style="color: #ff6b35; text-decoration: none; font-weight: 500; font-size: 13px;"></a>
                                         </div>
                                     </div>
-
-                                    <div class="d-flex align-items-center mb-2" id="venueDetailsPhoneSection"
-                                        style="display: none !important;">
-                                        <div class="me-2"
-                                            style="width: 35px; height: 35px; background: rgba(255, 107, 53, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    
+                                    <div class="d-flex align-items-center mb-2" id="venueDetailsPhoneSection" style="display: none !important;">
+                                        <div class="me-2" style="width: 35px; height: 35px; background: rgba(255, 107, 53, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-phone" style="color: #ff6b35; font-size: 14px;"></i>
                                         </div>
                                         <div>
-                                            <div class="text-muted" style="font-size: 11px; font-weight: 600;">Phone
-                                            </div>
-                                            <a href="#" id="venueDetailsPhone"
-                                                style="color: #ff6b35; text-decoration: none; font-weight: 500; font-size: 13px;"></a>
+                                            <div class="text-muted" style="font-size: 11px; font-weight: 600;">Phone</div>
+                                            <a href="#" id="venueDetailsPhone" style="color: #ff6b35; text-decoration: none; font-weight: 500; font-size: 13px;"></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <!-- Action Buttons -->
                             <div class="mt-3 pt-3 border-top">
                                 <div class="d-flex gap-2">
-                                    <a id="venueDetailsDirectionsLink" href="#" target="_blank"
-                                        class="btn btn-sm flex-fill"
-                                        style="background: #17a2b8; color: white; border: none;">
+                                    <a id="venueDetailsDirectionsLink" href="#" target="_blank" class="btn btn-sm flex-fill" style="background: #17a2b8; color: white; border: none;">
                                         <i class="fas fa-route me-1"></i>Directions
                                     </a>
-                                    <button class="btn btn-sm flex-fill" id="venueDetailsBookBtn"
-                                        style="background: #ff6b35; color: white; border: none; font-weight: 600;">
+                                    <button class="btn btn-sm flex-fill" id="venueDetailsBookBtn" style="background: #ff6b35; color: white; border: none; font-weight: 600;">
                                         <i class="fas fa-calendar-plus me-1"></i>Book Now
                                     </button>
                                 </div>
@@ -924,24 +850,20 @@
     <div class="modal fade" id="mapModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none;">
-                <div class="modal-header"
-                    style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; border: none; padding: 25px 30px;">
+                <div class="modal-header" style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; border: none; padding: 25px 30px;">
                     <div>
                         <h4 class="modal-title mb-1" id="mapModalTitle" style="font-weight: 700; font-size: 24px;">
                             <i class="fas fa-map me-2" style="color: #ff6b35;"></i>Venue Location
                         </h4>
                         <p class="mb-0" style="opacity: 0.9; font-size: 14px;" id="venueLocationMap"></p>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        style="opacity: 1;"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="opacity: 1;"></button>
                 </div>
                 <div class="modal-body" style="padding: 0;">
                     <div id="venueMap" style="height: 500px; width: 100%;"></div>
                     <div style="padding: 25px 30px; background: #f8f9fa;">
-                        <p class="mb-3" style="font-size: 18px; font-weight: 600; color: #2c3e50;" id="venueNameMap">
-                        </p>
-                        <a id="directionsLink" href="#" target="_blank" class="btn btn-primary w-100"
-                            style="padding: 14px; border-radius: 12px; font-weight: 600; background: linear-gradient(135deg, #ff6b35, #f7931e); border: none; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">
+                        <p class="mb-3" style="font-size: 18px; font-weight: 600; color: #2c3e50;" id="venueNameMap"></p>
+                        <a id="directionsLink" href="#" target="_blank" class="btn btn-primary w-100" style="padding: 14px; border-radius: 12px; font-weight: 600; background: linear-gradient(135deg, #ff6b35, #f7931e); border: none; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">
                             <i class="fas fa-route me-2"></i>Get Directions on Google Maps
                         </a>
                     </div>
@@ -951,37 +873,35 @@
     </div>
 
     <!-- Google Maps API -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6d_s6ng4nTlBdHg&libraries=places&callback=initGoogleMaps"
-        async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6d_s6ng4nTlBdHg&libraries=places&callback=initGoogleMaps" async defer></script>
     <script>
         // Suppress Google Maps errors
-        window.gm_authFailure = function () {
+        window.gm_authFailure = function() {
             console.log('Google Maps authentication failed - using fallback');
         };
-
+        
         // Initialize Google Maps when loaded
         function initGoogleMaps() {
             console.log('Google Maps API loaded successfully');
             window.googleMapsLoaded = true;
         }
-
+        
         // Global error handler for Google Maps
-        window.addEventListener('error', function (e) {
+        window.addEventListener('error', function(e) {
             if (e.message && e.message.includes('Google Maps')) {
                 e.preventDefault();
                 console.log('Google Maps error suppressed:', e.message);
                 return false;
             }
         }, true);
-
+        
         // MutationObserver to hide Google Maps error messages
         function hideMapErrors() {
             const mapContainer = document.getElementById('venueMap');
             if (mapContainer) {
-                const observer = new MutationObserver(function (mutations) {
-                    mutations.forEach(function (mutation) {
-                        mutation.addedNodes.forEach(function (node) {
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        mutation.addedNodes.forEach(function(node) {
                             if (node.nodeType === 1) { // Element node
                                 const text = node.textContent || node.innerText || '';
                                 if (text.includes('Oops') || text.includes('Something went wrong') || text.includes('didn\'t load Google Maps')) {
@@ -1007,35 +927,35 @@
                         });
                     });
                 });
-
+                
                 observer.observe(mapContainer, {
                     childList: true,
                     subtree: true
                 });
             }
         }
-
+        
         // Start hiding errors when map modal is shown
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const mapModal = document.getElementById('mapModal');
             if (mapModal) {
-                mapModal.addEventListener('shown.bs.modal', function () {
+                mapModal.addEventListener('shown.bs.modal', function() {
                     setTimeout(hideMapErrors, 100);
                 });
             }
         });
     </script>
-
+    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    
     <script>
         const API_BASE = 'http://localhost:3000/api';
         let currentUser = null;
         let selectedVenueId = null;
 
         // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             loadUserData();
             setupNavigation();
             loadVenues();
@@ -1045,20 +965,20 @@
 
         function setupNavigation() {
             document.querySelectorAll('.nav-link[data-tab]').forEach(link => {
-                link.addEventListener('click', function (e) {
+                link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const tabName = this.getAttribute('data-tab');
-
+                    
                     // Update active nav link
                     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
-
+                    
                     // Show/hide tabs
                     document.querySelectorAll('.tab-pane').forEach(tab => {
                         tab.style.display = 'none';
                         tab.classList.remove('active');
                     });
-
+                    
                     const targetTab = document.getElementById(tabName + '-tab');
                     if (targetTab) {
                         targetTab.style.display = 'block';
@@ -1073,7 +993,7 @@
             let greeting = 'Good morning';
             if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
             else if (hour >= 17) greeting = 'Good evening';
-
+            
             const greetingEl = document.getElementById('greeting');
             if (greetingEl && currentUser) {
                 greetingEl.textContent = `${greeting}, ${currentUser.name}! Find and book the perfect venue for your events.`;
@@ -1092,9 +1012,10 @@
             }
         }
 
-        async function loadVenues() {
+        async function loadVenues(url = null) {
             try {
-                const response = await fetch(`${API_BASE}/venues`);
+                const fetchUrl = url || `${API_BASE}/venues`;
+                const response = await fetch(fetchUrl);
                 const data = await response.json();
 
                 if (response.ok) {
@@ -1128,15 +1049,15 @@
                 } else if (venue.photoUrl && venue.photoUrl.trim() !== '') {
                     images = [venue.photoUrl];
                 }
-
+                
                 // Default placeholder if no images
                 if (images.length === 0) {
                     images = ['https://images.unsplash.com/photo-1519167758481-83f1426e4b1e?auto=format&fit=crop&w=400&q=80'];
                 }
-
+                
                 const hasMultipleImages = images.length > 1;
                 const carouselId = `organizerVenueCarousel${venueIndex}`;
-
+                
                 // Build image HTML with carousel for multiple images
                 let imageHtml = '';
                 if (hasMultipleImages) {
@@ -1145,15 +1066,15 @@
                         <div id="${carouselId}" class="carousel slide" data-bs-ride="false" style="height: 200px; position: relative;">
                             <div class="carousel-inner" style="height: 100%; border-radius: 12px 12px 0 0; overflow: hidden;">
                                 ${images.map((imgUrl, imgIndex) => {
-                        const fullImageUrl = imgUrl.startsWith('http') ? imgUrl :
-                            imgUrl.startsWith('/') ? `http://localhost:3000${imgUrl}` :
-                                `http://localhost:3000/${imgUrl}`;
-                        return `
+                                    const fullImageUrl = imgUrl.startsWith('http') ? imgUrl : 
+                                                       imgUrl.startsWith('/') ? `http://localhost:3000${imgUrl}` : 
+                                                       `http://localhost:3000/${imgUrl}`;
+                                    return `
                                         <div class="carousel-item ${imgIndex === 0 ? 'active' : ''}" style="height: 200px;">
                                             <img src="${fullImageUrl}" class="d-block w-100" style="height: 100%; object-fit: cover;" alt="${venue.name} - Image ${imgIndex + 1}" onerror="this.src='https://images.unsplash.com/photo-1519167758481-83f1426e4b1e?auto=format&fit=crop&w=400&q=80'">
                                         </div>
                                     `;
-                    }).join('')}
+                                }).join('')}
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev" style="opacity: 0.7; width: 40px;">
                                 <span class="carousel-control-prev-icon"></span>
@@ -1165,15 +1086,15 @@
                     `;
                 } else {
                     // Single image (no carousel)
-                    const fullImageUrl = images[0].startsWith('http') ? images[0] :
-                        images[0].startsWith('/') ? `http://localhost:3000${images[0]}` :
-                            `http://localhost:3000/${images[0]}`;
+                    const fullImageUrl = images[0].startsWith('http') ? images[0] : 
+                                       images[0].startsWith('/') ? `http://localhost:3000${images[0]}` : 
+                                       `http://localhost:3000/${images[0]}`;
                     imageHtml = `
                         <div class="venue-image" style="background-image: url('${fullImageUrl}'); height: 200px; background-size: cover; background-position: center; border-radius: 12px 12px 0 0; position: relative;">
                         </div>
                     `;
                 }
-
+                
                 return `
                 <div class="col-lg-6">
                     <div class="venue-card">
@@ -1186,7 +1107,7 @@
                                 <span class="badge bg-primary">GHS ${venue.price}</span>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body card-padding">
                             <h5 class="card-title">${venue.name}</h5>
                             <p class="card-text text-muted">${venue.description || 'Perfect venue for your special events.'}</p>
                             <div class="row g-2 mb-3">
@@ -1284,6 +1205,9 @@
                                 <div>
                                     <small class="text-muted">Booking ID: ${booking._id.slice(-8)}</small>
                                 </div>
+                                ${booking.status === 'confirmed' && !booking.isPaid ? `<div class="mt-2"><button class="btn btn-md btn-success me-2" onclick="makePayment('${booking._id}')">Make Payment</button>` : booking.isPaid ? `<div class="mt-2"><span class="badge bg-primary">Paid</span></div>` : ''}
+                                ${booking.status !== 'cancelled' ? `<button class="btn btn-sm btn-outline-danger" onclick="cancelBooking('${booking._id}')">Cancel</button>` : ''}
+                                
                             </div>
                         </div>
                     </div>
@@ -1291,8 +1215,71 @@
             `).join('');
         }
 
+        async function makePayment(bookingId) {
+            const result = await Swal.fire({
+                title: 'Proceed to payment?',
+                text: 'This will record the payment for your booking.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Pay now',
+                confirmButtonColor: '#28a745'
+            });
+
+            if (!result.isConfirmed) return;
+
+            // In a real app you'd integrate a payment gateway here. We'll mark as paid.
+            try {
+                const resp = await fetch(`${API_BASE}/bookings/${bookingId}/pay`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ paymentReference: `webpay_${Date.now()}` })
+                });
+                const data = await resp.json();
+                if (resp.ok) {
+                    Swal.fire({ icon: 'success', title: 'Payment recorded', text: 'Your payment was recorded successfully.', confirmButtonColor: '#ff6b35' });
+                    loadBookings();
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Failed to record payment', confirmButtonColor: '#ff6b35' });
+                }
+            } catch (err) {
+                console.error('Payment error:', err);
+                Swal.fire({ icon: 'error', title: 'Network Error', text: 'Unable to contact server.', confirmButtonColor: '#ff6b35' });
+            }
+        }
+
+        async function cancelBooking(bookingId) {
+            const result = await Swal.fire({
+                title: 'Cancel booking?',
+                text: 'Are you sure you want to cancel this booking? This action may be irreversible depending on owner policy.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, cancel',
+                confirmButtonColor: '#d33'
+            });
+
+            if (!result.isConfirmed) return;
+
+            try {
+                const resp = await fetch(`${API_BASE}/bookings/${bookingId}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: 'cancelled' })
+                });
+                const data = await resp.json();
+                if (resp.ok) {
+                    Swal.fire({ icon: 'success', title: 'Cancelled', text: 'Your booking has been cancelled.', confirmButtonColor: '#ff6b35' });
+                    loadBookings();
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Failed to cancel booking', confirmButtonColor: '#ff6b35' });
+                }
+            } catch (err) {
+                console.error('Cancel error:', err);
+                Swal.fire({ icon: 'error', title: 'Network Error', text: 'Unable to contact server.', confirmButtonColor: '#ff6b35' });
+            }
+        }
+
         function getStatusBadgeClass(status) {
-            switch (status.toLowerCase()) {
+            switch(status.toLowerCase()) {
                 case 'confirmed': return 'bg-success';
                 case 'pending': return 'bg-warning';
                 case 'cancelled': return 'bg-danger';
@@ -1312,7 +1299,7 @@
 
                 if (response.ok) {
                     const venue = data.venue;
-
+                    
                     // Set venue details
                     document.getElementById('venueDetailsName').textContent = venue.name;
                     document.getElementById('venueDetailsLocationText').textContent = venue.location;
@@ -1320,11 +1307,11 @@
                     document.getElementById('venueDetailsCapacity').textContent = venue.capacity + ' guests';
                     document.getElementById('venueDetailsPrice').textContent = venue.price;
                     document.getElementById('venueDetailsAddress').textContent = venue.location;
-
+                    
                     // Set images gallery
                     const carouselInner = document.getElementById('venueImageCarouselInner');
                     carouselInner.innerHTML = '';
-
+                    
                     // Get all images (photoUrls array or fallback to photoUrl)
                     let images = [];
                     if (venue.photoUrls && venue.photoUrls.length > 0) {
@@ -1334,16 +1321,16 @@
                     } else {
                         images = ['https://images.unsplash.com/photo-1519167758481-83f1426e4b1e?auto=format&fit=crop&w=800&q=80'];
                     }
-
+                    
                     images.forEach((imgUrl, index) => {
-                        const fullUrl = imgUrl.startsWith('http') ? imgUrl :
-                            imgUrl.startsWith('/') ? `http://localhost:3000${imgUrl}` :
-                                `http://localhost:3000/${imgUrl}`;
+                        const fullUrl = imgUrl.startsWith('http') ? imgUrl : 
+                                       imgUrl.startsWith('/') ? `http://localhost:3000${imgUrl}` : 
+                                       `http://localhost:3000/${imgUrl}`;
                         const carouselItem = document.createElement('div');
                         carouselItem.className = `carousel-item ${index === 0 ? 'active' : ''}`;
                         carouselItem.style.height = '100%';
                         carouselItem.style.minHeight = '500px';
-
+                        
                         const img = document.createElement('img');
                         img.src = fullUrl;
                         img.className = 'd-block w-100 h-100';
@@ -1352,16 +1339,16 @@
                         img.style.width = '100%';
                         img.style.minHeight = '500px';
                         img.alt = `Venue Image ${index + 1}`;
-                        img.onerror = function () {
+                        img.onerror = function() {
                             this.src = 'https://images.unsplash.com/photo-1519167758481-83f1426e4b1e?auto=format&fit=crop&w=800&q=80';
                         };
-
+                        
                         carouselItem.appendChild(img);
                         carouselInner.appendChild(carouselItem);
                     });
-
+                    
                     // Reinitialize carousel after modal is shown
-                    document.getElementById('venueDetailsModal').addEventListener('shown.bs.modal', function () {
+                    document.getElementById('venueDetailsModal').addEventListener('shown.bs.modal', function() {
                         const carousel = document.getElementById('venueImageCarousel');
                         if (carousel) {
                             const bsCarousel = new bootstrap.Carousel(carousel, {
@@ -1370,7 +1357,7 @@
                             });
                         }
                     }, { once: true });
-
+                    
                     // Contact information
                     if (venue.contactEmail) {
                         document.getElementById('venueDetailsEmail').textContent = venue.contactEmail;
@@ -1379,7 +1366,7 @@
                     } else {
                         document.getElementById('venueDetailsEmailSection').style.display = 'none';
                     }
-
+                    
                     if (venue.contactPhone) {
                         document.getElementById('venueDetailsPhone').textContent = venue.contactPhone;
                         document.getElementById('venueDetailsPhone').href = `tel:${venue.contactPhone}`;
@@ -1387,18 +1374,18 @@
                     } else {
                         document.getElementById('venueDetailsPhoneSection').style.display = 'none';
                     }
-
+                    
                     // Directions link
                     const encodedLocation = encodeURIComponent(venue.location);
                     document.getElementById('venueDetailsDirectionsLink').href = `https://www.google.com/maps/dir/?api=1&destination=${encodedLocation}`;
-
+                    
                     // Book button
                     document.getElementById('venueDetailsBookBtn').onclick = () => {
                         const modal = bootstrap.Modal.getInstance(document.getElementById('venueDetailsModal'));
                         modal.hide();
                         openBookingModal(venueId);
                     };
-
+                    
                     // Show modal
                     const modal = new bootstrap.Modal(document.getElementById('venueDetailsModal'));
                     modal.show();
@@ -1433,15 +1420,15 @@
             document.getElementById('mapModalTitle').textContent = venueName;
             document.getElementById('venueNameMap').textContent = venueName;
             document.getElementById('venueLocationMap').textContent = venueLocation;
-
+            
             // Create Google Maps directions link
             const encodedLocation = encodeURIComponent(venueLocation);
             document.getElementById('directionsLink').href = `https://www.google.com/maps/dir/?api=1&destination=${encodedLocation}`;
-
+            
             // Initialize or update map
             const modal = new bootstrap.Modal(document.getElementById('mapModal'));
             modal.show();
-
+            
             // Wait for modal to be shown before initializing map
             document.getElementById('mapModal').addEventListener('shown.bs.modal', function initializeMap() {
                 // Check if Google Maps is loaded
@@ -1454,7 +1441,7 @@
                     }
                     return;
                 }
-
+                
                 try {
                     // Hide any error messages that might appear
                     setTimeout(() => {
@@ -1472,7 +1459,7 @@
                             });
                         }
                     }, 100);
-
+                    
                     if (!venueMap) {
                         // Initialize map centered on Ghana (Accra)
                         venueMap = new google.maps.Map(document.getElementById('venueMap'), {
@@ -1484,42 +1471,42 @@
                             disableDefaultUI: false
                         });
                     }
-
+                    
                     // Geocode the venue location to get actual coordinates
                     const geocoder = new google.maps.Geocoder();
                     geocoder.geocode({ address: venueLocation + ', Ghana' }, (results, status) => {
-                        if (status === 'OK' && results[0]) {
-                            const location = results[0].geometry.location;
-                            const lat = location.lat();
-                            const lng = location.lng();
-
-                            // Center map on venue location with better zoom
-                            venueMap.setCenter(location);
-                            venueMap.setZoom(16); // Closer zoom for better view
-
-                            // Remove existing marker if any
-                            if (venueMarker) {
-                                venueMarker.setMap(null);
+                    if (status === 'OK' && results[0]) {
+                        const location = results[0].geometry.location;
+                        const lat = location.lat();
+                        const lng = location.lng();
+                        
+                        // Center map on venue location with better zoom
+                        venueMap.setCenter(location);
+                        venueMap.setZoom(16); // Closer zoom for better view
+                        
+                        // Remove existing marker if any
+                        if (venueMarker) {
+                            venueMarker.setMap(null);
+                        }
+                        
+                        // Add marker for venue with custom icon
+                        venueMarker = new google.maps.Marker({
+                            position: location,
+                            map: venueMap,
+                            title: venueName,
+                            animation: google.maps.Animation.DROP,
+                            icon: {
+                                url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                                scaledSize: new google.maps.Size(40, 40)
                             }
-
-                            // Add marker for venue with custom icon
-                            venueMarker = new google.maps.Marker({
-                                position: location,
-                                map: venueMap,
-                                title: venueName,
-                                animation: google.maps.Animation.DROP,
-                                icon: {
-                                    url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-                                    scaledSize: new google.maps.Size(40, 40)
-                                }
-                            });
-
-                            // Get formatted address from geocoding result
-                            const formattedAddress = results[0].formatted_address || venueLocation;
-
-                            // Add info window with coordinates
-                            const infoWindow = new google.maps.InfoWindow({
-                                content: `
+                        });
+                        
+                        // Get formatted address from geocoding result
+                        const formattedAddress = results[0].formatted_address || venueLocation;
+                        
+                        // Add info window with coordinates
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `
                                 <div style="padding: 12px; min-width: 200px;">
                                     <h6 style="margin: 0 0 8px 0; font-weight: bold; color: #2c3e50; font-size: 16px;">${venueName}</h6>
                                     <p style="margin: 0 0 6px 0; color: #666; font-size: 13px;">
@@ -1532,36 +1519,36 @@
                                     </p>
                                 </div>
                             `
-                            });
-
-                            venueMarker.addListener('click', () => {
-                                infoWindow.open(venueMap, venueMarker);
-                            });
-
-                            // Open info window by default
+                        });
+                        
+                        venueMarker.addListener('click', () => {
                             infoWindow.open(venueMap, venueMarker);
-
-                            // Update directions link with coordinates for better accuracy
-                            document.getElementById('directionsLink').href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+                        });
+                        
+                        // Open info window by default
+                        infoWindow.open(venueMap, venueMarker);
+                        
+                        // Update directions link with coordinates for better accuracy
+                        document.getElementById('directionsLink').href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+                    } else {
+                        console.error('Geocoding failed:', status);
+                        // Show error with SweetAlert if available, otherwise alert
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Location Not Found',
+                                html: `Could not find the exact location on the map.<br><br><strong>Location:</strong> ${venueLocation}<br><br>You can still use the "Get Directions" button to navigate using Google Maps.`,
+                                confirmButtonColor: '#ff6b35'
+                            });
                         } else {
-                            console.error('Geocoding failed:', status);
-                            // Show error with SweetAlert if available, otherwise alert
-                            if (typeof Swal !== 'undefined') {
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Location Not Found',
-                                    html: `Could not find the exact location on the map.<br><br><strong>Location:</strong> ${venueLocation}<br><br>You can still use the "Get Directions" button to navigate using Google Maps.`,
-                                    confirmButtonColor: '#ff6b35'
-                                });
-                            } else {
-                                alert('Could not find the location on the map. Please use the "Get Directions" button for navigation.');
-                            }
-
-                            // Fallback: Use text-based directions link
-                            const encodedLocation = encodeURIComponent(venueLocation + ', Ghana');
-                            document.getElementById('directionsLink').href = `https://www.google.com/maps/dir/?api=1&destination=${encodedLocation}`;
+                            alert('Could not find the location on the map. Please use the "Get Directions" button for navigation.');
                         }
-                    });
+                        
+                        // Fallback: Use text-based directions link
+                        const encodedLocation = encodeURIComponent(venueLocation + ', Ghana');
+                        document.getElementById('directionsLink').href = `https://www.google.com/maps/dir/?api=1&destination=${encodedLocation}`;
+                    }
+                });
                 } catch (error) {
                     console.log('Map initialization error (suppressed):', error);
                     // Don't show error to user, just log it
@@ -1570,7 +1557,7 @@
                         mapContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f8f9fa; color: #6c757d;"><p>Map will be available after implementation</p></div>';
                     }
                 }
-
+                
                 // Remove event listener after first use
                 document.getElementById('mapModal').removeEventListener('shown.bs.modal', initializeMap);
             }, { once: true });
@@ -1581,7 +1568,7 @@
         }
 
         // Handle booking form submission
-        document.getElementById('bookingForm').addEventListener('submit', async function (e) {
+        document.getElementById('bookingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             if (!selectedVenueId) {
@@ -1658,7 +1645,7 @@
                         }).join('<br>• ');
                         errorMessage = errorMessage + '<br><br><strong>Details:</strong><br>• ' + errorList;
                     }
-
+                    
                     Swal.fire({
                         icon: 'error',
                         title: 'Booking Failed',
@@ -1686,20 +1673,93 @@
             document.querySelector('.sidebar').classList.toggle('open');
         }
 
-        // Filter functionality
-        document.getElementById('locationFilter').addEventListener('change', filterVenues);
-        document.getElementById('categoryFilter').addEventListener('change', filterVenues);
+        // Initialize filter dropdowns with data
+        function initializeFilterDropdowns() {
+            // Get unique locations from all venues or predefined list
+            const locations = [
+                'All Locations',
+                'Accra',
+                'Tema',
+                'Kumasi',
+                'Sekondi',
+                'Cape Coast',
+                'Takoradi',
+                'Obuasi',
+                'Tamale',
+                'Koforidua'
+            ];
 
-        function filterVenues() {
-            loadVenues();
+            const categories = [
+                'All Categories',
+                'Wedding',
+                'Corporate',
+                'Party',
+                'Conference',
+                'Other'
+            ];
+
+            // Populate location dropdown
+            const locationFilter = document.getElementById('locationFilter');
+            if (locationFilter) {
+                locationFilter.innerHTML = locations.map(loc => 
+                    `<option value="${loc === 'All Locations' ? '' : loc}">${loc}</option>`
+                ).join('');
+            }
+
+            // Populate category dropdown
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter) {
+                categoryFilter.innerHTML = categories.map(cat => 
+                    `<option value="${cat === 'All Categories' ? '' : cat}">${cat}</option>`
+                ).join('');
+            }
         }
 
+        // Filter functionality
+        function filterVenues() {
+            const location = document.getElementById('locationFilter')?.value || '';
+            const category = document.getElementById('categoryFilter')?.value || '';
+            
+            // Build query parameters
+            let url = `${API_BASE}/venues`;
+            const params = new URLSearchParams();
+            
+            if (location && location.trim() !== '') {
+                params.append('location', location);
+            }
+            if (category && category.trim() !== '') {
+                params.append('category', category);
+            }
+            
+            if (params.toString()) {
+                url += `?${params.toString()}`;
+            }
+            
+            loadVenues(url);
+        }
+
+        // Attach event listeners to filters
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFilterDropdowns();
+            
+            const locationFilter = document.getElementById('locationFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            
+            if (locationFilter) {
+                locationFilter.addEventListener('change', filterVenues);
+            }
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', filterVenues);
+            }
+        });
+
         // Reset modal when closed
-        document.getElementById('bookingModal').addEventListener('hidden.bs.modal', function () {
+        document.getElementById('bookingModal').addEventListener('hidden.bs.modal', function() {
             document.getElementById('bookingForm').reset();
             selectedVenueId = null;
         });
     </script>
+    <!-- Theme Toggle Script -->
+    <script src="../scripts/theme-toggle.js"></script>
 </body>
-
 </html>

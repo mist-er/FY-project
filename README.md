@@ -197,7 +197,7 @@ curl -X POST http://localhost:3000/api/venues \
 
 **CSS changes not visible:**
 - Clear browser cache
-- Check cache-busting parameters in HTML
+- Check cache-busting parameters in HTMLnpm 
 - Verify CSS file paths
 
 ## 📄 License

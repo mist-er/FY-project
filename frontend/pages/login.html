@@ -11,6 +11,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../styles/custom.css?v=10">
+    <!-- Dark Theme CSS -->
+    <link rel="stylesheet" href="../styles/dark-theme.css">
     <style>
         * {
             margin: 0;
@@ -308,6 +310,10 @@
         <span>Back</span>
     </a>
     
+    <button class="theme-toggle-btn" style="position: fixed; top: 20px; right: 20px; z-index: 1000;" title="Toggle Dark Theme" aria-label="Toggle Dark Theme">
+        <i class="fas fa-moon"></i>
+    </button>
+    
     <div class="auth-container">
         <div class="auth-image-section">
             <div class="auth-image-content">
@@ -425,5 +431,7 @@
             }
         });
     </script>
+    <!-- Theme Toggle Script -->
+    <script src="../scripts/theme-toggle.js"></script>
 </body>
 </html>

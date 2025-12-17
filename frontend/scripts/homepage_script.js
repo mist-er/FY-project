@@ -106,7 +106,9 @@ function searchVenues() {
     if (category) params.append('category', category);
     
     // Make API call with filters
-    fetch(`${API_BASE}/venues/search?${params.toString()}`)
+    const url = params.toString() ? `${API_BASE}/venues/search?${params.toString()}` : `${API_BASE}/venues`;
+    
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.venues) {
@@ -118,6 +120,46 @@ function searchVenues() {
             // Fallback to static venues
             showStaticVenues();
         });
+}
+
+// Initialize filter dropdowns with options
+function initializeHomePageFilterDropdowns() {
+    const locations = [
+        'All Locations',
+        'Accra',
+        'Tema',
+        'Kumasi',
+        'Sekondi',
+        'Cape Coast',
+        'Takoradi',
+        'Obuasi',
+        'Tamale',
+        'Koforidua'
+    ];
+
+    const categories = [
+        'All Categories',
+        'Wedding',
+        'Corporate',
+        'Party',
+        'Conference',
+        'Other'
+    ];
+
+    const locationSelect = document.getElementById('locationSelect');
+    const categorySelect = document.getElementById('categorySelect');
+
+    if (locationSelect && locationSelect.innerHTML.trim() === '') {
+        locationSelect.innerHTML = locations.map(loc => 
+            `<option value="${loc === 'All Locations' ? '' : loc}">${loc}</option>`
+        ).join('');
+    }
+
+    if (categorySelect && categorySelect.innerHTML.trim() === '') {
+        categorySelect.innerHTML = categories.map(cat => 
+            `<option value="${cat === 'All Categories' ? '' : cat}">${cat}</option>`
+        ).join('');
+    }
 }
 
 // Scroll to top functionality
@@ -198,6 +240,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (venuesGrid) {
         showLoading(venuesGrid);
     }
+    
+    // Initialize filter dropdowns
+    initializeHomePageFilterDropdowns();
     
     // Load venues
     loadVenues();

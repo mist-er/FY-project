@@ -54,9 +54,8 @@ const userSchema = new mongoose.Schema({
 });
 
 // Index for better query performance
-userSchema.index({ email: 1 });
+// Note: email and firebaseUid already have indexes from unique: true
 userSchema.index({ role: 1 });
-userSchema.index({ firebaseUid: 1 }, { sparse: true });
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {

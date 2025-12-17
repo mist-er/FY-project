@@ -11,6 +11,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../styles/custom.css?v=9">
+    <!-- Dark Theme CSS -->
+    <link rel="stylesheet" href="../styles/dark-theme.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -44,6 +46,14 @@
             font-weight: bold;
             text-decoration: none;
             flex-shrink: 0;
+        }
+        
+        .logo img {
+            height: 50px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+            filter: brightness(1.1);
         }
         
         .logo i {
@@ -1446,8 +1456,7 @@
         <div class="container">
             <div class="header-content">
                 <a href="#" class="logo">
-                    <i class="fas fa-search"></i>
-                    <span>eFinder</span>
+                    <img src="../uploads/efinder_logo.png" alt="eFinder Logo">
                 </a>
                 
                 <!-- Navbar Search -->
@@ -1480,6 +1489,9 @@
                 </ul>
                 
                 <div class="header-actions">
+                    <button class="theme-toggle-btn" title="Toggle Dark Theme" aria-label="Toggle Dark Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
                     <a href="./login.html">Sign in</a>
                     <a href="./SignUp.html" class="btn-add-listing">
                         <i class="fas fa-plus me-1"></i>List Your Venue
@@ -1501,8 +1513,7 @@
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
             <a href="#" class="logo">
-                <i class="fas fa-search"></i>
-                <span>eFinder</span>
+                <img src="../uploads/efinder_logo.png" alt="eFinder Logo">
             </a>
             <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">
                 <i class="fas fa-times"></i>
@@ -1751,60 +1762,6 @@
                     <div class="benefit-card text-center">
                         <h5 class="benefit-title">24/7 Support</h5>
                         <p class="benefit-description">Round-the-clock customer support to help you every step of the way.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Testimonials Section -->
-    <section class="testimonials-section py-5">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">What Our Customers Say</h2>
-                <p class="section-description">
-                    Don't just take our word for it. See what event organizers are saying about eFinder.
-                </p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">5.0 Rating</div>
-                        <p class="testimonial-text">"eFinder made finding our wedding venue so easy! We found the perfect location within days and the booking process was seamless."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">A</div>
-                            <div class="author-info">
-                                <h6 class="author-name">Ama Mensah</h6>
-                                <p class="author-role">Wedding Organizer</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">5.0 Rating</div>
-                        <p class="testimonial-text">"As a corporate event planner, I use eFinder for all my venue bookings. The platform is intuitive and saves me so much time!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">K</div>
-                            <div class="author-info">
-                                <h6 class="author-name">Kwame Asante</h6>
-                                <p class="author-role">Corporate Event Planner</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">5.0 Rating</div>
-                        <p class="testimonial-text">"The transparency in pricing and availability made it easy to compare venues. Highly recommend eFinder for any event!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">E</div>
-                            <div class="author-info">
-                                <h6 class="author-name">Efua Osei</h6>
-                                <p class="author-role">Party Organizer</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -2267,5 +2224,7 @@
         }
         
     </script>
+    <!-- Theme Toggle Script -->
+    <script src="../scripts/theme-toggle.js"></script>
 </body>
 </html>
